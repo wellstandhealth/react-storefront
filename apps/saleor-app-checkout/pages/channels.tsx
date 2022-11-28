@@ -8,6 +8,9 @@ const Channels = () => {
     pause: !isAuthorized,
   });
 
+  console.log("channels", channelsQuery);
+  console.log("isAuthorized", isAuthorized);
+
   const channels = channelsQuery.data?.channels || [];
 
   return <ChannelList channels={channels} loading={channelsQuery.fetching} />;
