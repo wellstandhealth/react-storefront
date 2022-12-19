@@ -12,6 +12,10 @@ import {
   PostAdyenDropInPaymentsDetailsResponse,
   DummyPayRequestResult,
   DummyPayRequestBody,
+  PostDropInPaypalOrderBody,
+  PostDropInPaypalOrderCaptureBody,
+  PostDropInPaypalOrderCaptureResponse,
+  PostDropInPaypalOrderResponse,
 } from "checkout-common";
 import { PayResult } from "./types";
 import { urlJoinTrailingSlash } from "./urlJoin";
@@ -127,6 +131,46 @@ export const handleDropInAdyenPaymentDetails = ({
 }): FetchResponse<PostAdyenDropInPaymentsDetailsResponse | { message: string }> => {
   return fetch(
     urlJoinTrailingSlash(checkoutApiUrl, "drop-in", "adyen", "payments", "details") +
+      `?` +
+      new URLSearchParams({ saleorApiUrl }).toString(),
+    {
+      method: "POST",
+      body: JSON.stringify(body),
+    }
+  );
+};
+
+export const createDropInPaypalOrder = ({
+  saleorApiUrl,
+  checkoutApiUrl,
+  ...body
+}: PostDropInPaypalOrderBody & {
+  saleorApiUrl: string;
+  checkoutApiUrl: string;
+}): FetchResponse<PostDropInPaypalOrderResponse | { message: string }> => {
+  return fetch(
+    urlJoinTrailingSlash(checkoutApiUrl, "drop-in", "paypal", "orders") +
+      `?` +
+      new URLSearchParams({ saleorApiUrl }).toString(),
+    {
+      method: "POST",
+      body: JSON.stringify(body),
+    }
+  );
+};
+
+export const createDropInPaypalOrderCapture = ({
+  saleorApiUrl,
+  checkoutApiUrl,
+  orderId,
+  ...body
+}: PostDropInPaypalOrderCaptureBody & {
+  saleorApiUrl: string;
+  checkoutApiUrl: string;
+  orderId: string;
+}): FetchResponse<PostDropInPaypalOrderCaptureResponse | { message: string }> => {
+  return fetch(
+    urlJoinTrailingSlash(checkoutApiUrl, "drop-in", "paypal", "orders", orderId, "capture") +
       `?` +
       new URLSearchParams({ saleorApiUrl }).toString(),
     {

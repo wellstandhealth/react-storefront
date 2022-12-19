@@ -36,6 +36,8 @@
     "@apollo/client": "3.7.1",
     "@headlessui/react": "1.7.3",
     "@hookform/error-message": "2.0.0",
+    "@paypal/paypal-js": "5.1.4",
+    "@paypal/react-paypal-js": "7.8.2",
     "@react-types/button": "3.6.2",
     "@saleor/sdk": "0.4.4",
     "@saleor/ui-kit": "workspace:*",
