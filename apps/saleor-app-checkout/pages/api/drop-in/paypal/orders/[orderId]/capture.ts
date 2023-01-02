@@ -4,10 +4,10 @@ import { capturePayment } from "@/saleor-app-checkout/backend/payments/providers
 import { allowCors } from "@/saleor-app-checkout/backend/utils";
 import { unpackPromise, unpackThrowable } from "@/saleor-app-checkout/utils/unpackErrors";
 import { NextApiHandler } from "next";
-import { PostDropInPaypalOrderCaptureResponse } from "checkout-common";
+import { PostDropInPaypalOrdersCaptureResponse } from "checkout-common";
 
 const DropInPaypalOrdersOrderIdCaptureHandler: NextApiHandler<
-  PostDropInPaypalOrderCaptureResponse | { message: string }
+  PostDropInPaypalOrdersCaptureResponse | { message: string }
 > = async (req, res) => {
   const [saleorApiUrlError, saleorApiUrl] = unpackThrowable(() => getSaleorApiUrlFromRequest(req));
 

@@ -16,6 +16,7 @@ import {
   adyenPaymentProviderMessages,
   molliePaymentProviderMessages,
   paymentProvidersMessages,
+  payPalPaymentProviderMessages,
   stripePaymentProviderMessages,
 } from "./messages/paymentProviders";
 import { withLabels, withNames } from "./utils";
@@ -105,6 +106,19 @@ const stripePaymentProvider: Omit<PaymentProviderSettings<"stripe">, "label">[] 
   },
   {
     id: "webhookSecret",
+    type: "string",
+    encrypt: true,
+  },
+];
+
+const payPalPaymentProvider: Omit<PaymentProviderSettings<"paypal">, "label">[] = [
+  {
+    id: "clientId",
+    type: "string",
+    encrypt: false,
+  },
+  {
+    id: "appSecret",
     type: "string",
     encrypt: true,
   },
@@ -212,6 +226,17 @@ export const useStripePaymentProvider = (): PaymentProvider<"stripe"> => {
   };
 };
 
+export const usePayPalPaymentProvider = (): PaymentProvider<"paypal"> => {
+  const intl = useIntl();
+
+  return {
+    id: "paypal",
+    label: intl.formatMessage(paymentProvidersMessages.paypal),
+    logo: PayPalIcon,
+    settings: withLabels(intl, payPalPaymentProviderMessages, payPalPaymentProvider),
+  };
+};
+
 export const useDummyPaymentProvider = (): PaymentProvider<"dummy"> => {
   const intl = useIntl();
 
@@ -226,6 +251,7 @@ export const usePaymentProviders = (): PaymentProvider<PaymentProviderID>[] => [
   useMolliePaymentProvider(),
   useAdyenPaymentProvider(),
   useStripePaymentProvider(),
+  usePayPalPaymentProvider(),
 ];
 
 export const useBrandingCustomization = (): Customization<"branding"> => {

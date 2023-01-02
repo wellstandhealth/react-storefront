@@ -49,7 +49,7 @@ export const PayPalExpressCheckout = () => {
   );
 };
 
-function PayPalInside({}: { checkout: Checkout }) {
+function PayPalInside({ checkout }: { checkout: Checkout }) {
   // const [{ options }, dispatch] = usePayPalScriptReducer();
 
   const {
@@ -65,7 +65,13 @@ function PayPalInside({}: { checkout: Checkout }) {
   });
 
   const onCreateOrder: PayPalButtonsComponentOptions["createOrder"] = useEvent(async () => {
-    const response = await fetchCreateDropInPaypalOrder({ checkoutApiUrl, saleorApiUrl });
+    const response = await fetchCreateDropInPaypalOrder({
+      checkoutApiUrl,
+      saleorApiUrl,
+      checkoutId: checkout.id,
+      redirectUrl: window.location.href,
+      totalAmount: checkout.totalPrice.gross.amount,
+    });
 
     if (response && "data" in response) {
       return response.data.id;

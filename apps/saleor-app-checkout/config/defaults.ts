@@ -27,6 +27,10 @@ export const defaultPaymentProviderSettings: PaymentProviderSettingsValues<"unen
     password: "",
     username: "",
   },
+  paypal: {
+    clientId: "",
+    appSecret: "",
+  },
   stripe: {
     publishableKey: "",
     secretKey: "",

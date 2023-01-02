@@ -127,6 +127,10 @@
     "developer_comment": "payment provider",
     "string": "Mollie"
   },
+  "messages/paymentProviders/CXSLQf": {
+    "developer_comment": "payment provider setting",
+    "string": "Client ID"
+  },
   "messages/paymentProviders/I6I7xw": {
     "developer_comment": "payment provider setting",
     "string": "Webhook username"
@@ -138,6 +142,10 @@
   "messages/paymentProviders/WdX1+f": {
     "developer_comment": "payment provider setting",
     "string": "Public client key"
+  },
+  "messages/paymentProviders/XG7vfQ": {
+    "developer_comment": "payment provider setting",
+    "string": "App Secret"
   },
   "messages/paymentProviders/YBcvvL": {
     "developer_comment": "payment provider setting",
@@ -158,6 +166,10 @@
   "messages/paymentProviders/m5P19o": {
     "developer_comment": "payment provider",
     "string": "Adyen"
+  },
+  "messages/paymentProviders/pMmnZT": {
+    "developer_comment": "paypal payment provider",
+    "string": "PayPal"
   },
   "messages/paymentProviders/qHRtb0": {
     "developer_comment": "payment provider setting",

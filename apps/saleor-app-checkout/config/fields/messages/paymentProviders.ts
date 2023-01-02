@@ -2,6 +2,7 @@ import {
   AdyenProviderSettingID,
   MollieProviderSettingID,
   PaymentProviderID,
+  PaypalProviderSettingID,
   StripeProviderSettingID,
 } from "checkout-common";
 import { defineMessages } from "react-intl";
@@ -26,6 +27,11 @@ export const paymentProvidersMessages = defineMessages<PaymentProviderID>({
     defaultMessage: "Dummy Payment",
     id: "messages/paymentProviders/LtD8zn",
     description: "dummy payment provider",
+  },
+  paypal: {
+    defaultMessage: "PayPal",
+    id: "messages/paymentProviders/pMmnZT",
+    description: "paypal payment provider",
   },
 });
 
@@ -89,6 +95,19 @@ export const stripePaymentProviderMessages = defineMessages<StripeProviderSettin
   webhookSecret: {
     defaultMessage: "Webhookd Secret",
     id: "messages/paymentProviders/glq8nA",
+    description: "payment provider setting",
+  },
+});
+
+export const payPalPaymentProviderMessages = defineMessages<PaypalProviderSettingID>({
+  clientId: {
+    defaultMessage: "Client ID",
+    id: "messages/paymentProviders/CXSLQf",
+    description: "payment provider setting",
+  },
+  appSecret: {
+    defaultMessage: "App Secret",
+    id: "messages/paymentProviders/XG7vfQ",
     description: "payment provider setting",
   },
 });

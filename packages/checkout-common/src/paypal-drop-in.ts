@@ -1,9 +1,21 @@
-// @todo validate and infer
-export type PostDropInPaypalOrderBody = {};
-export type PostDropInPaypalOrderCaptureBody = {};
+import * as yup from "yup";
 
-export type PostDropInPaypalOrderResponse = { data: PaypalOrderResponse };
-export type PostDropInPaypalOrderCaptureResponse = { data: PaypalOrderCaptureResponse };
+export const postDropInPaypalOrdersBody = yup
+  .object({
+    checkoutId: yup.string().required(),
+    redirectUrl: yup.string().required(),
+    totalAmount: yup.number().required(),
+  })
+  .required();
+export type PostDropInPaypalOrdersBody = yup.InferType<typeof postDropInPaypalOrdersBody>;
+
+export const postDropInPaypalOrdersCaptureBody = yup.object({}).required();
+export type PostDropInPaypalOrdersCaptureBody = yup.InferType<
+  typeof postDropInPaypalOrdersCaptureBody
+>;
+
+export type PostDropInPaypalOrdersResponse = { data: PaypalOrderResponse };
+export type PostDropInPaypalOrdersCaptureResponse = { data: PaypalOrderCaptureResponse };
 
 export interface PaypalOrderResponse {
   id: string;

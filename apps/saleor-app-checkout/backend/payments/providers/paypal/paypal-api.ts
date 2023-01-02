@@ -5,6 +5,7 @@ import {
   PaypalOrderResponse,
   PaypalOrderCaptureResponse,
 } from "@/saleor-app-checkout/../../packages/checkout-common/dist";
+import { OrderFragment } from "@/saleor-app-checkout/graphql";
 
 const base = "https://api-m.sandbox.paypal.com";
 
@@ -32,10 +33,12 @@ export const getPayPalSecrets = async (saleorApiUrl: string) => {
 
 // https://github.com/paypal-examples/docs-examples/blob/main/standard-integration/paypal-api.js
 
-export async function createOrder({
+export async function createPaypalOrder({
   saleorApiUrl,
+  order,
 }: {
   saleorApiUrl: string;
+  order: OrderFragment;
 }): Promise<PaypalOrderResponse> {
   const accessToken = await generateAccessToken({ saleorApiUrl });
   const url = `${base}/v2/checkout/orders`;
@@ -50,8 +53,8 @@ export async function createOrder({
       purchase_units: [
         {
           amount: {
-            currency_code: "USD",
-            value: "100.00",
+            currency_code: order.total.gross.currency,
+            value: order.total.gross.amount.toString(),
           },
         },
       ],

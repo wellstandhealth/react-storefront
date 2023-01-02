@@ -28,14 +28,16 @@ export const useCustomizationSettings = (
 
 export const usePaymentProviderSettings = (
   settingsValues: UnknownPrivateSettingsValues<"unencrypted">
-): PaymentProvider<PaymentProviderID>[] =>
-  usePaymentProviders().map((provider) => ({
+): PaymentProvider<PaymentProviderID>[] => {
+  console.log(settingsValues);
+  return usePaymentProviders().map((provider) => ({
     ...provider,
     settings: provider.settings.map((setting: PaymentProviderSettings<PaymentProviderID>) => ({
       ...setting,
       value: settingsValues[provider.id][setting.id],
     })),
   }));
+};
 
 export const useChannelPaymentOptionsList = (
   channels: ChannelFragment[],

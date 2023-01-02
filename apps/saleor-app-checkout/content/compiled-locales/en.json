@@ -191,6 +191,12 @@
       "value": "Mollie"
     }
   ],
+  "messages/paymentProviders/CXSLQf": [
+    {
+      "type": 0,
+      "value": "Client ID"
+    }
+  ],
   "messages/paymentProviders/I6I7xw": [
     {
       "type": 0,
@@ -207,6 +213,12 @@
     {
       "type": 0,
       "value": "Public client key"
+    }
+  ],
+  "messages/paymentProviders/XG7vfQ": [
+    {
+      "type": 0,
+      "value": "App Secret"
     }
   ],
   "messages/paymentProviders/YBcvvL": [
@@ -237,6 +249,12 @@
     {
       "type": 0,
       "value": "Adyen"
+    }
+  ],
+  "messages/paymentProviders/pMmnZT": [
+    {
+      "type": 0,
+      "value": "PayPal"
     }
   ],
   "messages/paymentProviders/qHRtb0": [
