@@ -1,20 +1,5 @@
-import {
-  ChannelActivePaymentProvidersByChannel,
-  PaymentMethodID,
-  PaymentProviderID,
-} from "checkout-common";
-
-export const getParsedPaymentMethods = (
-  activePaymentProvidersByChannel: ChannelActivePaymentProvidersByChannel | null | undefined
-): PaymentMethodID[] => {
-  if (!activePaymentProvidersByChannel) {
-    return [];
-  }
-
-  return Object.entries(activePaymentProvidersByChannel)
-    .filter(([, paymentProviderId]) => !!paymentProviderId)
-    .map(([paymentMethodId]) => paymentMethodId) as PaymentMethodID[];
-};
+import { ParsedPaymentGateway } from "@/checkout-storefront/sections/PaymentSection/types";
+import { ChannelActivePaymentProvidersByChannel, PaymentProviderID } from "checkout-common";
 
 export const getParsedPaymentProviders = (
   activePaymentProvidersByChannel: ChannelActivePaymentProvidersByChannel | null | undefined
@@ -27,4 +12,14 @@ export const getParsedPaymentProviders = (
     (paymentProviderId): paymentProviderId is Exclude<typeof paymentProviderId, ""> =>
       !!paymentProviderId
   );
+};
+// -------
+
+export const getParsedPaymentMethods = (availablePaymentGateways: ParsedPaymentGateway[]) => {
+  if (!availablePaymentGateways.length) {
+    return [];
+  }
+
+  // later add handling mollie etc.
+  return [];
 };

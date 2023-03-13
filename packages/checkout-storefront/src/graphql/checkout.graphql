@@ -31,6 +31,16 @@ fragment ValidationRulesFragment on AddressValidationData {
   }
 }
 
+fragment PaymentGatewayFragment on PaymentGateway {
+  id
+  name
+  currencies
+  config {
+    field
+    value
+  }
+}
+
 fragment CheckoutFragment on Checkout {
   id
   email
@@ -59,32 +69,7 @@ fragment CheckoutFragment on Checkout {
     email
   }
   availablePaymentGateways {
-    id
-    name
-  }
-  deliveryMethod {
-    ... on ShippingMethod {
-      id
-    }
-    ... on Warehouse {
-      id
-    }
-  }
-  shippingMethods {
-    id
-    name
-    price {
-      ...Money
-    }
-  }
-  totalPrice {
-    gross {
-      amount
-    }
-  }
-  availablePaymentGateways {
-    id
-    name
+    ...PaymentGatewayFragment
   }
   deliveryMethod {
     ... on ShippingMethod {

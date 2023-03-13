@@ -1,5 +1,5 @@
 overwrite: true
-schema: ${SALEOR_API_URL}
+schema: ./src/graphql/schema.graphql
 documents: "src/**/*.graphql"
 extensions:
   codegen:
@@ -16,6 +16,7 @@ extensions:
         config:
           scalars:
             JSONString: string
+            JSON: string
             UUID: string
             Metadata: Record<string, string>
             DateTime: string
