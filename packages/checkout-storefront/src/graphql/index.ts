@@ -28140,6 +28140,65 @@ export type PaymentGatewaysInitializeMutation = {
   } | null;
 };
 
+export type TransactionInitializeMutationVariables = Exact<{
+  checkoutId: Scalars["ID"];
+  action?: InputMaybe<TransactionFlowStrategyEnum>;
+  paymentGateway: PaymentGatewayToInitialize;
+}>;
+
+export type TransactionInitializeMutation = {
+  __typename?: "Mutation";
+  transactionInitialize?: {
+    __typename?: "TransactionInitialize";
+    data?: string | null;
+    transaction?: {
+      __typename?: "TransactionItem";
+      id: string;
+      actions: Array<TransactionActionEnum>;
+    } | null;
+    transactionEvent?: {
+      __typename?: "TransactionEvent";
+      message: string;
+      type?: TransactionEventTypeEnum | null;
+    } | null;
+    errors: Array<{
+      __typename?: "TransactionInitializeError";
+      field?: string | null;
+      code: TransactionInitializeErrorCode;
+      message?: string | null;
+    }>;
+  } | null;
+};
+
+export type TransactionProcessMutationVariables = Exact<{
+  id: Scalars["ID"];
+  data?: InputMaybe<Scalars["JSON"]>;
+}>;
+
+export type TransactionProcessMutation = {
+  __typename?: "Mutation";
+  transactionProcess?: {
+    __typename?: "TransactionProcess";
+    data?: string | null;
+    transaction?: {
+      __typename?: "TransactionItem";
+      id: string;
+      actions: Array<TransactionActionEnum>;
+    } | null;
+    transactionEvent?: {
+      __typename?: "TransactionEvent";
+      message: string;
+      type?: TransactionEventTypeEnum | null;
+    } | null;
+    errors: Array<{
+      __typename?: "TransactionProcessError";
+      field?: string | null;
+      code: TransactionProcessErrorCode;
+      message?: string | null;
+    }>;
+  } | null;
+};
+
 export type UserQueryVariables = Exact<{ [key: string]: never }>;
 
 export type UserQuery = {
@@ -28921,6 +28980,62 @@ export function usePaymentGatewaysInitializeMutation() {
     PaymentGatewaysInitializeMutation,
     PaymentGatewaysInitializeMutationVariables
   >(PaymentGatewaysInitializeDocument);
+}
+export const TransactionInitializeDocument = gql`
+  mutation transactionInitialize(
+    $checkoutId: ID!
+    $action: TransactionFlowStrategyEnum
+    $paymentGateway: PaymentGatewayToInitialize!
+  ) {
+    transactionInitialize(id: $checkoutId, action: $action, paymentGateway: $paymentGateway) {
+      transaction {
+        id
+        actions
+      }
+      transactionEvent {
+        message
+        type
+      }
+      data
+      errors {
+        field
+        code
+        message
+      }
+    }
+  }
+`;
+
+export function useTransactionInitializeMutation() {
+  return Urql.useMutation<TransactionInitializeMutation, TransactionInitializeMutationVariables>(
+    TransactionInitializeDocument
+  );
+}
+export const TransactionProcessDocument = gql`
+  mutation transactionProcess($id: ID!, $data: JSON) {
+    transactionProcess(id: $id, data: $data) {
+      transaction {
+        id
+        actions
+      }
+      transactionEvent {
+        message
+        type
+      }
+      data
+      errors {
+        field
+        code
+        message
+      }
+    }
+  }
+`;
+
+export function useTransactionProcessMutation() {
+  return Urql.useMutation<TransactionProcessMutation, TransactionProcessMutationVariables>(
+    TransactionProcessDocument
+  );
 }
 export const UserDocument = gql`
   query user {

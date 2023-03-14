@@ -1,5 +1,4 @@
 import {
-  PaymentGatewayConfig,
   PaymentGatewayFragment,
   usePaymentGatewaysInitializeMutation,
 } from "@/checkout-storefront/graphql";

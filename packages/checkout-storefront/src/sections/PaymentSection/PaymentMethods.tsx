@@ -8,6 +8,7 @@
 import { AdyenDropIn } from "@/checkout-storefront/sections/PaymentSection/AdyenDropIn/AdyenDropIn";
 import { usePayments } from "@/checkout-storefront/sections/PaymentSection/usePayments";
 import { PaymentGatewayId } from "@/checkout-storefront/sections/PaymentSection/useGetParsedPaymentGatewaysConfigs";
+import { ParsedPaymentGateway } from "@/checkout-storefront/sections/PaymentSection/types";
 
 export const PaymentMethods = () => {
   // const formatMessage = useFormattedMessages();
@@ -16,9 +17,9 @@ export const PaymentMethods = () => {
 
   const adyenGateway = availablePaymentGateways.find(
     ({ paymentGatewayId }) => paymentGatewayId === PaymentGatewayId.adyen
-  );
+  ) as ParsedPaymentGateway<"adyen"> | undefined;
 
-  return <AdyenDropIn config={adyenGateway?.data} />;
+  return <AdyenDropIn config={adyenGateway} />;
   // return showAdyenDropin ? (
   //   <AdyenDropIn />
   // ) : (

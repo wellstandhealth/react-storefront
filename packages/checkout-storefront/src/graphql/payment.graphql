@@ -19,3 +19,45 @@ mutation paymentGatewaysInitialize(
     }
   }
 }
+
+mutation transactionInitialize(
+  $checkoutId: ID!
+  $action: TransactionFlowStrategyEnum
+  $paymentGateway: PaymentGatewayToInitialize!
+) {
+  transactionInitialize(id: $checkoutId, action: $action, paymentGateway: $paymentGateway) {
+    transaction {
+      id
+      actions
+    }
+    transactionEvent {
+      message
+      type
+    }
+    data
+    errors {
+      field
+      code
+      message
+    }
+  }
+}
+
+mutation transactionProcess($id: ID!, $data: JSON) {
+  transactionProcess(id: $id, data: $data) {
+    transaction {
+      id
+      actions
+    }
+    transactionEvent {
+      message
+      type
+    }
+    data
+    errors {
+      field
+      code
+      message
+    }
+  }
+}

@@ -1,9 +1,3 @@
-import {
-  createDropInAdyenPayment,
-  createDropInAdyenSession,
-  handleDropInAdyenPaymentDetails,
-} from "@/checkout-storefront/fetch/requests";
-
 import type { PaymentResponse as AdyenWebPaymentResponse } from "@adyen/adyen-web/dist/types/components/types";
 
 import { useAppConfig } from "@/checkout-storefront/providers/AppConfigProvider";
@@ -27,22 +21,21 @@ import { getAdyenIntegerAmountFromSaleor } from "checkout-common";
 import { PaymentMethodsResponse } from "@adyen/api-library/lib/src/typings/checkout/paymentMethodsResponse";
 import { createAdyenCheckoutConfig } from "@/checkout-storefront/sections/PaymentSection/AdyenDropIn/utils";
 import { AdyenInitializeData } from "@/checkout-storefront/sections/PaymentSection/AdyenDropIn/types";
-import { useAdyenDropin } from "@/checkout-storefront/sections/PaymentSection/AdyenDropIn/useAdyenDropin";
+import {
+  AdyenDropinProps,
+  useAdyenDropin,
+} from "@/checkout-storefront/sections/PaymentSection/AdyenDropIn/useAdyenDropin";
 
 type AdyenCheckoutInstance = Awaited<ReturnType<typeof AdyenCheckout>>;
-
-interface AdyenDropInProps {
-  config: AdyenInitializeData;
-}
 
 // fake function just to get the type because can't import it :(
 const _hack = (adyenCheckout: AdyenCheckoutInstance) =>
   adyenCheckout.create("dropin").mount("#dropin-container");
 type DropinElement = ReturnType<typeof _hack>;
 
-export const AdyenDropIn: FC<AdyenDropInProps> = ({ config }) => {
+export const AdyenDropIn: FC<AdyenDropinProps> = ({ config }) => {
   const { locale } = useLocale();
-  const { onSubmit, onAdditionalDetails } = useAdyenDropin();
+  const { onSubmit, onAdditionalDetails } = useAdyenDropin(config);
   const dropinContainerElRef = useRef<HTMLDivElement>(null);
   const dropinComponentRef = useRef<DropinElement | null>(null);
 
@@ -54,7 +47,7 @@ export const AdyenDropIn: FC<AdyenDropInProps> = ({ config }) => {
 
     const createAdyenCheckoutInstance = async () => {
       const adyenCheckout = await AdyenCheckout(
-        createAdyenCheckoutConfig({ ...config, locale, onSubmit, onAdditionalDetails })
+        createAdyenCheckoutConfig({ ...config.data, locale, onSubmit, onAdditionalDetails })
       );
 
       const dropin = adyenCheckout
