@@ -1,60 +1,57 @@
-import {
-  PaymentGatewayFragment,
-  usePaymentGatewaysInitializeMutation,
-} from "@/checkout-storefront/graphql";
+import { usePaymentGatewaysInitializeMutation } from "@/checkout-storefront/graphql";
 import { useCheckout } from "@/checkout-storefront/hooks/useCheckout";
 import { useSubmit } from "@/checkout-storefront/hooks/useSubmit";
 import { ParsedPaymentGateway } from "@/checkout-storefront/sections/PaymentSection/types";
-import { useGetParsedPaymentGatewaysConfigs } from "@/checkout-storefront/sections/PaymentSection/useGetParsedPaymentGatewaysConfigs";
+import { compact } from "lodash-es";
 import { useEffect, useMemo, useState } from "react";
-
-interface PaymentGatewaysData {
-  paymentGateways: Array<PaymentGatewayFragment>;
-}
 
 export const usePaymentGatewaysInitialize = () => {
   const {
     checkout: { id: checkoutId, availablePaymentGateways },
   } = useCheckout();
 
-  const getParsedPaymentGatewaysConfigs =
-    useGetParsedPaymentGatewaysConfigs(availablePaymentGateways);
-
   const [gatewayConfigs, setGatewayConfigs] = useState<ParsedPaymentGateway[]>([]);
 
   const [{ fetching }, paymentGatewaysInitialize] = usePaymentGatewaysInitializeMutation();
 
-  const onSubmit = useSubmit<PaymentGatewaysData, typeof paymentGatewaysInitialize>(
+  const onSubmit = useSubmit<{}, typeof paymentGatewaysInitialize>(
     useMemo(
       () => ({
         hideAlerts: true,
         scope: "paymentGatewaysInitialize",
         shouldAbort: () => !availablePaymentGateways.length,
         onSubmit: paymentGatewaysInitialize,
-        parse: ({ paymentGateways }) => ({ checkoutId, paymentGateways }),
-        onSuccess: ({ result }) =>
+        parse: () => ({
+          checkoutId,
+          paymentGateways: availablePaymentGateways.map(({ config, id }) => ({
+            id,
+            data: JSON.stringify(config),
+          })),
+        }),
+        onSuccess: ({ data }) => {
           setGatewayConfigs(
-            getParsedPaymentGatewaysConfigs(result?.data?.paymentGatewayInitialize?.gatewayConfigs)
-          ),
+            compact(
+              data.gatewayConfigs?.map(({ data, ...rest }) => ({
+                ...rest,
+                data: typeof data === "string" ? JSON.parse(data) : data,
+              }))
+            )
+          );
+        },
         onError: ({ errors }) => {
           console.log({ errors });
         },
       }),
-      [
-        availablePaymentGateways.length,
-        checkoutId,
-        getParsedPaymentGatewaysConfigs,
-        paymentGatewaysInitialize,
-      ]
+      [availablePaymentGateways, checkoutId, paymentGatewaysInitialize]
     )
   );
 
   useEffect(() => {
-    void onSubmit({ paymentGateways: availablePaymentGateways });
+    void onSubmit();
   }, []);
 
   return {
     fetching,
-    availablePaymentGateways: gatewayConfigs,
+    availablePaymentGateways: gatewayConfigs || [],
   };
 };

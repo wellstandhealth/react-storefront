@@ -44,11 +44,11 @@ export const useBillingSameAsShippingForm = (
       billingAddress: getAddressInputDataFromAddress(billingAddress),
       validationRules: getAddressValidationRulesVariables({ autoSave }),
     }),
-    onSuccess: ({ formData, formHelpers: { resetForm }, result }) => {
+    onSuccess: ({ formData, formHelpers: { resetForm }, data }) => {
       resetForm({
         values: {
           ...formData,
-          billingAddress: result?.data?.checkoutBillingAddressUpdate?.checkout?.billingAddress,
+          billingAddress: data.checkout?.billingAddress,
         },
       });
     },

@@ -29,3 +29,27 @@ export type ParserFunction<TData extends FormDataBase, TMutationFn extends Mutat
 export type SimpleSubmitFn<TData extends FormDataBase | {}> = keyof TData extends never
   ? () => SubmitReturnWithErrors<TData>
   : (formData: TData) => SubmitReturnWithErrors<TData>;
+
+type ResultOf<TMutationFn extends MutationBaseFn> =
+  MutationData<TMutationFn> extends OperationResult<infer TData, any> ? TData : never;
+
+export type OperationName<TMutationFn extends MutationBaseFn> = Exclude<
+  keyof ResultOf<TMutationFn>,
+  "__typename"
+>;
+
+export type MutationReturn<TMutationFn extends MutationBaseFn> = TMutationFn extends (
+  vars: any
+) => Promise<OperationResult<infer TData>>
+  ? TData
+  : never;
+
+export type MutationResultData<TMutationFn extends MutationBaseFn> =
+  OperationName<TMutationFn> extends keyof MutationReturn<TMutationFn>
+    ? MutationReturn<TMutationFn>[OperationName<TMutationFn>]
+    : never;
+
+export type MutationSuccessData<TMutationFn extends MutationBaseFn> = Exclude<
+  MutationResultData<TMutationFn>,
+  null | undefined
+>;

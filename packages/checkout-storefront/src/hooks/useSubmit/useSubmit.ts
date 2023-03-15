@@ -11,6 +11,8 @@ import {
   CommonVars,
   MutationBaseFn,
   MutationData,
+  MutationResultData,
+  MutationSuccessData,
   MutationVars,
   ParserFunction,
   SimpleSubmitFn,
@@ -18,6 +20,11 @@ import {
 import { ApiErrors } from "@/checkout-storefront/hooks/useGetParsedErrors/types";
 import { extractMutationErrors } from "@/checkout-storefront/lib/utils/common";
 import { localeToLanguageCode } from "@/checkout-storefront/lib/utils/locale";
+import {
+  extractMutationData,
+  extractResponseData,
+  getSuccessData,
+} from "@/checkout-storefront/hooks/useSubmit/utils";
 
 interface CallbackProps<TData> {
   formData: TData;
@@ -34,7 +41,7 @@ export interface UseSubmitProps<
   onSubmit: (vars: MutationVars<TMutationFn>) => Promise<MutationData<TMutationFn>>;
   parse: ParserFunction<TData, TMutationFn>;
   onAbort?: (props: CallbackProps<TData>) => void;
-  onSuccess?: (props: CallbackProps<TData> & { result: MutationData<TMutationFn> }) => void;
+  onSuccess?: (props: CallbackProps<TData> & { data: MutationSuccessData<TMutationFn> }) => void;
   onError?: (props: CallbackProps<TData> & { errors: ApiErrors<TData, TErrorCodes> }) => void;
   onStart?: (props: CallbackProps<TData>) => void;
   shouldAbort?:
@@ -91,8 +98,10 @@ export const useSubmit = <
 
       const [hasErrors, errors] = extractMutationErrors<TData, TErrorCodes>(result);
 
-      if (!hasErrors) {
-        typeof onSuccess === "function" && onSuccess({ ...callbackProps, result });
+      const { success, data } = extractMutationData(result);
+
+      if (!hasErrors && success) {
+        typeof onSuccess === "function" && onSuccess({ ...callbackProps, data });
         setCheckoutUpdateState("success");
 
         return { hasErrors, errors };

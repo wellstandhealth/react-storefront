@@ -31,7 +31,8 @@ export const CheckoutForm = () => {
 
   const { handleSubmit, isProcessing } = useCheckoutSubmit();
 
-  const { availablePaymentProviders } = useFetchPaymentMethods();
+  // const { availablePaymentProviders } = useFetchPaymentMethods();
+  const availablePaymentProviders = [];
 
   const shouldShowPayButton = availablePaymentProviders.some(
     (provider) => provider && provider !== "adyen"

@@ -42,13 +42,13 @@ fragment OrderLineFragment on OrderLine {
   }
 }
 
-fragment Shipping on ShippingMethod {
+fragment ShippingFragment on ShippingMethod {
   name
   minimumDeliveryDays
   maximumDeliveryDays
 }
 
-fragment Order on Order {
+fragment OrderFragment on Order {
   id
   number
   userEmail
@@ -67,7 +67,7 @@ fragment Order on Order {
     ...AddressFragment
   }
   deliveryMethod {
-    ...Shipping
+    ...ShippingFragment
   }
   total {
     gross {
@@ -103,6 +103,6 @@ fragment Order on Order {
 
 query order($id: ID!, $languageCode: LanguageCodeEnum!) {
   order(id: $id) {
-    ...Order
+    ...OrderFragment
   }
 }

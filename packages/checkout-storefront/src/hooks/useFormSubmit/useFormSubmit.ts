@@ -3,6 +3,7 @@ import { FormDataBase, FormHelpers } from "@/checkout-storefront/hooks/useForm";
 import {
   MutationBaseFn,
   MutationData,
+  MutationSuccessData,
   MutationVars,
   ParserFunction,
   SubmitReturnWithErrors,
@@ -30,7 +31,7 @@ interface UseFormSubmitProps<
   onSubmit: (vars: MutationVars<TMutationFn>) => Promise<MutationData<TMutationFn>>;
   parse: ParserFunction<TData, TMutationFn>;
   onAbort?: (props: CallbackProps<TData>) => void;
-  onSuccess?: (props: CallbackProps<TData> & { result: MutationData<TMutationFn> }) => void;
+  onSuccess?: (props: CallbackProps<TData> & { data: MutationSuccessData<TMutationFn> }) => void;
   onError?: (
     props: CallbackProps<TData> & {
       errors: ApiErrors<TData, TErrorCodes>;

@@ -374,3 +374,14 @@ mutation checkoutRemovePromoCode(
     }
   }
 }
+
+mutation checkoutComplete($checkoutId: ID!, $languageCode: LanguageCodeEnum!) {
+  checkoutComplete(id: $checkoutId) {
+    errors {
+      ...CheckoutErrorFragment
+    }
+    order {
+      ...OrderFragment
+    }
+  }
+}

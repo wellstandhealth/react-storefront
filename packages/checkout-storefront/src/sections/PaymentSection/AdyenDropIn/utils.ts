@@ -5,7 +5,11 @@ import {
   AdyenInitializeData,
   ApplePayCallback,
 } from "@/checkout-storefront/sections/PaymentSection/AdyenDropIn/types";
+import DropinElement from "@adyen/adyen-web/dist/types/components/Dropin";
 import { CoreOptions } from "@adyen/adyen-web/dist/types/core/types";
+import { PaymentMethodsResponseInterface } from "@adyen/adyen-web/dist/types/types";
+import { PaymentResponse } from "@adyen/adyen-web/dist/types/components/types";
+import { PaymentResponse as AdyenApiPaymentResponse } from "@adyen/api-library/lib/src/typings/checkout/paymentResponse";
 
 interface CreateAdyenCheckoutConfigProps extends AdyenInitializeData {
   locale: Locale;
@@ -68,3 +72,31 @@ export const createAdyenCheckoutConfig = ({
     },
   },
 });
+
+export function handleAdyenPaymentResult(result: PaymentResponse, component: DropinElement) {
+  switch (result.resultCode) {
+    // @todo https://docs.adyen.com/online-payments/payment-result-codes
+    case AdyenApiPaymentResponse.ResultCodeEnum.AuthenticationFinished:
+    case AdyenApiPaymentResponse.ResultCodeEnum.Cancelled:
+    case AdyenApiPaymentResponse.ResultCodeEnum.ChallengeShopper:
+    case AdyenApiPaymentResponse.ResultCodeEnum.Error:
+    case AdyenApiPaymentResponse.ResultCodeEnum.IdentifyShopper:
+    case AdyenApiPaymentResponse.ResultCodeEnum.Pending:
+    case AdyenApiPaymentResponse.ResultCodeEnum.PresentToShopper:
+    case AdyenApiPaymentResponse.ResultCodeEnum.Received:
+    case AdyenApiPaymentResponse.ResultCodeEnum.RedirectShopper:
+    case AdyenApiPaymentResponse.ResultCodeEnum.Refused: {
+      console.error(result);
+      component.setStatus("error", {
+        message: `${result.resultCode}: ${result.refusalReason as string}`,
+      });
+      return;
+    }
+
+    case AdyenApiPaymentResponse.ResultCodeEnum.Authorised:
+    case AdyenApiPaymentResponse.ResultCodeEnum.Success: {
+      component.setStatus("success");
+      return;
+    }
+  }
+}

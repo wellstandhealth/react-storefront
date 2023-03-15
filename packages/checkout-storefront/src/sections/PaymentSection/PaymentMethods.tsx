@@ -19,7 +19,7 @@ export const PaymentMethods = () => {
     ({ paymentGatewayId }) => paymentGatewayId === PaymentGatewayId.adyen
   ) as ParsedPaymentGateway<"adyen"> | undefined;
 
-  return <AdyenDropIn config={adyenGateway} />;
+  return adyenGateway ? <AdyenDropIn config={adyenGateway} /> : null;
   // return showAdyenDropin ? (
   //   <AdyenDropIn />
   // ) : (

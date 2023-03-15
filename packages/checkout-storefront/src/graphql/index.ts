@@ -27853,6 +27853,126 @@ export type CheckoutRemovePromoCodeMutation = {
   } | null;
 };
 
+export type CheckoutCompleteMutationVariables = Exact<{
+  checkoutId: Scalars["ID"];
+  languageCode: LanguageCodeEnum;
+}>;
+
+export type CheckoutCompleteMutation = {
+  __typename?: "Mutation";
+  checkoutComplete?: {
+    __typename?: "CheckoutComplete";
+    errors: Array<{
+      __typename?: "CheckoutError";
+      message?: string | null;
+      field?: string | null;
+      code: CheckoutErrorCode;
+    }>;
+    order?: {
+      __typename?: "Order";
+      id: string;
+      number: string;
+      userEmail?: string | null;
+      isPaid: boolean;
+      discounts: Array<{
+        __typename?: "OrderDiscount";
+        type: OrderDiscountType;
+        name?: string | null;
+        amount: { __typename?: "Money"; currency: string; amount: number };
+      }>;
+      shippingAddress?: {
+        __typename?: "Address";
+        id: string;
+        city: string;
+        phone?: string | null;
+        postalCode: string;
+        companyName: string;
+        cityArea: string;
+        streetAddress1: string;
+        streetAddress2: string;
+        countryArea: string;
+        firstName: string;
+        lastName: string;
+        country: { __typename?: "CountryDisplay"; country: string; code: string };
+      } | null;
+      billingAddress?: {
+        __typename?: "Address";
+        id: string;
+        city: string;
+        phone?: string | null;
+        postalCode: string;
+        companyName: string;
+        cityArea: string;
+        streetAddress1: string;
+        streetAddress2: string;
+        countryArea: string;
+        firstName: string;
+        lastName: string;
+        country: { __typename?: "CountryDisplay"; country: string; code: string };
+      } | null;
+      deliveryMethod?:
+        | {
+            __typename?: "ShippingMethod";
+            name: string;
+            minimumDeliveryDays?: number | null;
+            maximumDeliveryDays?: number | null;
+          }
+        | { __typename?: "Warehouse" }
+        | null;
+      total: {
+        __typename?: "TaxedMoney";
+        gross: { __typename?: "Money"; currency: string; amount: number };
+        tax: { __typename?: "Money"; currency: string; amount: number };
+      };
+      voucher?: { __typename?: "Voucher"; code: string } | null;
+      shippingPrice: {
+        __typename?: "TaxedMoney";
+        gross: { __typename?: "Money"; currency: string; amount: number };
+      };
+      subtotal: {
+        __typename?: "TaxedMoney";
+        gross: { __typename?: "Money"; currency: string; amount: number };
+      };
+      lines: Array<{
+        __typename?: "OrderLine";
+        id: string;
+        quantity: number;
+        productName: string;
+        variantName: string;
+        variant?: {
+          __typename?: "ProductVariant";
+          name: string;
+          attributes: Array<{
+            __typename?: "SelectedAttribute";
+            values: Array<{
+              __typename?: "AttributeValue";
+              name?: string | null;
+              dateTime?: string | null;
+              boolean?: boolean | null;
+              translation?: { __typename?: "AttributeValueTranslation"; name: string } | null;
+            }>;
+          }>;
+        } | null;
+        totalPrice: {
+          __typename?: "TaxedMoney";
+          gross: { __typename?: "Money"; currency: string; amount: number };
+        };
+        undiscountedUnitPrice: {
+          __typename?: "TaxedMoney";
+          gross: { __typename?: "Money"; currency: string; amount: number };
+        };
+        unitPrice: {
+          __typename?: "TaxedMoney";
+          gross: { __typename?: "Money"; currency: string; amount: number };
+        };
+        thumbnail?: { __typename?: "Image"; alt?: string | null; url: string } | null;
+      }>;
+      totalBalance: { __typename?: "Money"; currency: string; amount: number };
+      totalCaptured: { __typename?: "Money"; currency: string; amount: number };
+    } | null;
+  } | null;
+};
+
 export type MoneyFragment = { __typename?: "Money"; currency: string; amount: number };
 
 export type OrderLineFragment = {
@@ -28500,7 +28620,7 @@ export const CheckoutFragmentDoc = gql`
   ${CheckoutLineFragmentDoc}
 `;
 export const ShippingFragmentDoc = gql`
-  fragment Shipping on ShippingMethod {
+  fragment ShippingFragment on ShippingMethod {
     name
     minimumDeliveryDays
     maximumDeliveryDays
@@ -28548,7 +28668,7 @@ export const OrderLineFragmentDoc = gql`
   ${MoneyFragmentDoc}
 `;
 export const OrderFragmentDoc = gql`
-  fragment Order on Order {
+  fragment OrderFragment on Order {
     id
     number
     userEmail
@@ -28567,7 +28687,7 @@ export const OrderFragmentDoc = gql`
       ...AddressFragment
     }
     deliveryMethod {
-      ...Shipping
+      ...ShippingFragment
     }
     total {
       gross {
@@ -28939,10 +29059,30 @@ export function useCheckoutRemovePromoCodeMutation() {
     CheckoutRemovePromoCodeMutationVariables
   >(CheckoutRemovePromoCodeDocument);
 }
+export const CheckoutCompleteDocument = gql`
+  mutation checkoutComplete($checkoutId: ID!, $languageCode: LanguageCodeEnum!) {
+    checkoutComplete(id: $checkoutId) {
+      errors {
+        ...CheckoutErrorFragment
+      }
+      order {
+        ...OrderFragment
+      }
+    }
+  }
+  ${CheckoutErrorFragmentDoc}
+  ${OrderFragmentDoc}
+`;
+
+export function useCheckoutCompleteMutation() {
+  return Urql.useMutation<CheckoutCompleteMutation, CheckoutCompleteMutationVariables>(
+    CheckoutCompleteDocument
+  );
+}
 export const OrderDocument = gql`
   query order($id: ID!, $languageCode: LanguageCodeEnum!) {
     order(id: $id) {
-      ...Order
+      ...OrderFragment
     }
   }
   ${OrderFragmentDoc}
