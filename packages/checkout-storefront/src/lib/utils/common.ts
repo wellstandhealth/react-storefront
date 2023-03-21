@@ -4,8 +4,8 @@ import { AnyVariables, OperationResult } from "urql";
 import { string } from "yup";
 
 export const getById =
-  <T extends { id: string }>(idToCompare: string | undefined) =>
-  (obj: T) =>
+  <TId extends string = string>(idToCompare: TId | undefined) =>
+  (obj: { id: TId }) =>
     obj.id === idToCompare;
 
 export const getByUnmatchingId =

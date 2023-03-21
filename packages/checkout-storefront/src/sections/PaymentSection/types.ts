@@ -1,17 +1,18 @@
 import { PaymentGatewayConfig } from "@/checkout-storefront/graphql";
 import { AdyenInitializeData } from "@/checkout-storefront/sections/PaymentSection/AdyenDropIn/types";
 
-export enum PaymentGatewayId {
-  adyen = "app.saleor.adyen",
-}
+export type PaymentGatewayId = "app.saleor.adyen";
 
-interface PaymentGatewayData {
-  adyen: AdyenInitializeData;
-}
+export type ParsedAdyenGateway = ParsedPaymentGateway<AdyenInitializeData>;
 
-export interface ParsedPaymentGateway<TKey extends keyof PaymentGatewayData | void = void>
-  extends Omit<PaymentGatewayConfig, "data"> {
-  data: TKey extends keyof PaymentGatewayData ? PaymentGatewayData[TKey] : Record<string, any>;
+export type ParsedPaymentGateways = {
+  adyen?: ParsedAdyenGateway;
+};
+
+export interface ParsedPaymentGateway<TData extends Record<string, any>>
+  extends Omit<PaymentGatewayConfig, "data" | "id"> {
+  data: TData;
+  id: PaymentGatewayId;
 }
 
 export interface PaymentMethod {

@@ -7,19 +7,15 @@
 // import { FormProvider } from "@/checkout-storefront/providers/FormProvider";
 import { AdyenDropIn } from "@/checkout-storefront/sections/PaymentSection/AdyenDropIn/AdyenDropIn";
 import { usePayments } from "@/checkout-storefront/sections/PaymentSection/usePayments";
-import { PaymentGatewayId } from "@/checkout-storefront/sections/PaymentSection/useGetParsedPaymentGatewaysConfigs";
-import { ParsedPaymentGateway } from "@/checkout-storefront/sections/PaymentSection/types";
 
 export const PaymentMethods = () => {
   // const formatMessage = useFormattedMessages();
   // const { form, availablePaymentMethods, availablePaymentProviders } = usePaymentMethodsForm();
   const { /*availablePaymentMethods,*/ availablePaymentGateways } = usePayments();
 
-  const adyenGateway = availablePaymentGateways.find(
-    ({ paymentGatewayId }) => paymentGatewayId === PaymentGatewayId.adyen
-  ) as ParsedPaymentGateway<"adyen"> | undefined;
+  const { adyen } = availablePaymentGateways;
 
-  return adyenGateway ? <AdyenDropIn config={adyenGateway} /> : null;
+  return adyen ? <AdyenDropIn config={adyen} /> : null;
   // return showAdyenDropin ? (
   //   <AdyenDropIn />
   // ) : (

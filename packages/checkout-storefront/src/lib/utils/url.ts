@@ -14,6 +14,9 @@ const queryParamsMap = {
   token: "passwordResetToken",
   email: "passwordResetEmail",
   saleorApiUrl: "saleorApiUrl",
+  // adyen
+  transaction: "transaction",
+  redirectResult: "redirectResult",
 } as const;
 
 type UnmappedQueryParam = keyof typeof queryParamsMap;

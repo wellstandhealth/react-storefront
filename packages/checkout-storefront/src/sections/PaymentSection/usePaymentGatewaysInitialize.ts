@@ -1,8 +1,8 @@
 import { usePaymentGatewaysInitializeMutation } from "@/checkout-storefront/graphql";
 import { useCheckout } from "@/checkout-storefront/hooks/useCheckout";
 import { useSubmit } from "@/checkout-storefront/hooks/useSubmit";
-import { ParsedPaymentGateway } from "@/checkout-storefront/sections/PaymentSection/types";
-import { compact } from "lodash-es";
+import { ParsedPaymentGateways } from "@/checkout-storefront/sections/PaymentSection/types";
+import { getParsedPaymentGateways } from "@/checkout-storefront/sections/PaymentSection/utils";
 import { useEffect, useMemo, useState } from "react";
 
 export const usePaymentGatewaysInitialize = () => {
@@ -10,7 +10,7 @@ export const usePaymentGatewaysInitialize = () => {
     checkout: { id: checkoutId, availablePaymentGateways },
   } = useCheckout();
 
-  const [gatewayConfigs, setGatewayConfigs] = useState<ParsedPaymentGateway[]>([]);
+  const [gatewayConfigs, setGatewayConfigs] = useState<ParsedPaymentGateways>({});
 
   const [{ fetching }, paymentGatewaysInitialize] = usePaymentGatewaysInitializeMutation();
 
@@ -29,14 +29,7 @@ export const usePaymentGatewaysInitialize = () => {
           })),
         }),
         onSuccess: ({ data }) => {
-          setGatewayConfigs(
-            compact(
-              data.gatewayConfigs?.map(({ data, ...rest }) => ({
-                ...rest,
-                data: typeof data === "string" ? JSON.parse(data) : data,
-              }))
-            )
-          );
+          setGatewayConfigs(getParsedPaymentGateways(data.gatewayConfigs));
         },
         onError: ({ errors }) => {
           console.log({ errors });
