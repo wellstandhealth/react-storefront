@@ -23,12 +23,16 @@ export const getParsedPaymentGatewayConfigs = (
       return result;
     }
 
-    const { id, ...rest } = gatewayConfig;
+    // TMP until nested data.data in all transaction mutations is fixed
+    const { id, data, ...rest } = gatewayConfig;
 
     return {
       ...result,
       [paymentGatewayMap[id as PaymentGatewayId]]: {
         ...rest,
+
+        // TMP until nested data.data in all transaction mutations is fixed
+        data: data?.data as Record<string, any>,
       },
     };
   }, {});
@@ -49,7 +53,7 @@ export const getFilteredPaymentGateways = (
     // app is missing in our codebase but is an app and not a plugin
     // hence we'd like to have it handled by default
     if (!shouldBeIncluded && !isAPlugin) {
-      console.error(`Unhandled payment gateway - name: ${name}, id: ${id}`);
+      console.warn(`Unhandled payment gateway - name: ${name}, id: ${id}`);
       return false;
     }
 

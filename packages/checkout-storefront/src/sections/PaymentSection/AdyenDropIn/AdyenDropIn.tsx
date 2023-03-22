@@ -7,6 +7,7 @@ import {
   AdyenDropinProps,
   useAdyenDropin,
 } from "@/checkout-storefront/sections/PaymentSection/AdyenDropIn/useAdyenDropin";
+import "@adyen/adyen-web/dist/adyen.css";
 
 type AdyenCheckoutInstance = Awaited<ReturnType<typeof AdyenCheckout>>;
 
@@ -28,12 +29,13 @@ export const AdyenDropIn: FC<AdyenDropinProps> = ({ config }) => {
     }
 
     const createAdyenCheckoutInstance = async () => {
+      console.log(config);
       const adyenCheckout = await AdyenCheckout(
         createAdyenCheckoutConfig({ ...config.data, locale, onSubmit, onAdditionalDetails })
       );
 
       const dropin = adyenCheckout
-        .create("dropin", {})
+        .create("dropin", { onReady: () => console.log("RADDYYY") })
         .mount(dropinContainerElRef?.current as HTMLDivElement);
 
       dropinComponentRef.current = dropin;

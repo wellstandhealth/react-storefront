@@ -34,7 +34,6 @@ export const usePaymentGatewaysInitialize = () => {
           ),
         }),
         onSuccess: ({ data }) => {
-          console.log({ data });
           setGatewayConfigs(getParsedPaymentGatewayConfigs(data.gatewayConfigs));
         },
         onError: ({ errors }) => {

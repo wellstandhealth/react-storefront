@@ -2,12 +2,12 @@ import { Locale } from "@/checkout-storefront/lib/regions";
 import {
   AdyenCheckoutInstanceOnAdditionalDetails,
   AdyenCheckoutInstanceOnSubmit,
-  AdyenInitializeData,
+  AdyenGatewayInitializePayload,
   ApplePayCallback,
 } from "@/checkout-storefront/sections/PaymentSection/AdyenDropIn/types";
 import { CoreOptions } from "@adyen/adyen-web/dist/types/core/types";
 
-interface CreateAdyenCheckoutConfigProps extends AdyenInitializeData {
+interface CreateAdyenCheckoutConfigProps extends AdyenGatewayInitializePayload {
   locale: Locale;
   onSubmit: AdyenCheckoutInstanceOnSubmit;
   onAdditionalDetails: AdyenCheckoutInstanceOnAdditionalDetails;
