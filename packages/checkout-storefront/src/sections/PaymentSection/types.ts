@@ -1,9 +1,12 @@
 import { PaymentGatewayConfig } from "@/checkout-storefront/graphql";
-import { AdyenInitializeData } from "@/checkout-storefront/sections/PaymentSection/AdyenDropIn/types";
+import {
+  AdyenGatewayId,
+  AdyenGatewayInitializePayload,
+} from "@/checkout-storefront/sections/PaymentSection/AdyenDropIn/types";
 
-export type PaymentGatewayId = "app.saleor.adyen";
+export type PaymentGatewayId = AdyenGatewayId;
 
-export type ParsedAdyenGateway = ParsedPaymentGateway<AdyenInitializeData>;
+export type ParsedAdyenGateway = ParsedPaymentGateway<AdyenGatewayInitializePayload>;
 
 export type ParsedPaymentGateways = {
   adyen?: ParsedAdyenGateway;
@@ -15,7 +18,7 @@ export interface ParsedPaymentGateway<TData extends Record<string, any>>
   id: PaymentGatewayId;
 }
 
-export interface PaymentMethod {
-  id: string;
-  name: string;
-}
+// export interface PaymentMethod {
+//   id: string;
+//   name: string;
+// }

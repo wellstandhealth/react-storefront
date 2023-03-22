@@ -40,7 +40,7 @@ export type Scalars = {
    * String, Boolean, Int, Float, List or Object.
    */
   GenericScalar: any;
-  JSON: string;
+  JSON: Record<string, any>;
   JSONString: string;
   /**
    * Metadata is a map of key-value pairs, both keys and values are `String`.
@@ -28249,7 +28249,7 @@ export type PaymentGatewaysInitializeMutation = {
     gatewayConfigs?: Array<{
       __typename?: "PaymentGatewayConfig";
       id: string;
-      data?: string | null;
+      data?: Record<string, any> | null;
       errors?: Array<{
         __typename?: "PaymentGatewayConfigError";
         field?: string | null;
@@ -28270,7 +28270,7 @@ export type TransactionInitializeMutation = {
   __typename?: "Mutation";
   transactionInitialize?: {
     __typename?: "TransactionInitialize";
-    data?: string | null;
+    data?: Record<string, any> | null;
     transaction?: {
       __typename?: "TransactionItem";
       id: string;
@@ -28299,7 +28299,7 @@ export type TransactionProcessMutation = {
   __typename?: "Mutation";
   transactionProcess?: {
     __typename?: "TransactionProcess";
-    data?: string | null;
+    data?: Record<string, any> | null;
     transaction?: {
       __typename?: "TransactionItem";
       id: string;

@@ -2,7 +2,10 @@ import { usePaymentGatewaysInitializeMutation } from "@/checkout-storefront/grap
 import { useCheckout } from "@/checkout-storefront/hooks/useCheckout";
 import { useSubmit } from "@/checkout-storefront/hooks/useSubmit";
 import { ParsedPaymentGateways } from "@/checkout-storefront/sections/PaymentSection/types";
-import { getParsedPaymentGateways } from "@/checkout-storefront/sections/PaymentSection/utils";
+import {
+  getFilteredPaymentGateways,
+  getParsedPaymentGatewayConfigs,
+} from "@/checkout-storefront/sections/PaymentSection/utils";
 import { useEffect, useMemo, useState } from "react";
 
 export const usePaymentGatewaysInitialize = () => {
@@ -23,13 +26,16 @@ export const usePaymentGatewaysInitialize = () => {
         onSubmit: paymentGatewaysInitialize,
         parse: () => ({
           checkoutId,
-          paymentGateways: availablePaymentGateways.map(({ config, id }) => ({
-            id,
-            data: JSON.stringify(config),
-          })),
+          paymentGateways: getFilteredPaymentGateways(availablePaymentGateways).map(
+            ({ config, id }) => ({
+              id,
+              data: config,
+            })
+          ),
         }),
         onSuccess: ({ data }) => {
-          setGatewayConfigs(getParsedPaymentGateways(data.gatewayConfigs));
+          console.log({ data });
+          setGatewayConfigs(getParsedPaymentGatewayConfigs(data.gatewayConfigs));
         },
         onError: ({ errors }) => {
           console.log({ errors });
