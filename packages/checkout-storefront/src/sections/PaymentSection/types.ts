@@ -7,7 +7,7 @@ import {
 export type PaymentGatewayId = AdyenGatewayId;
 
 //TMP until bug with nested data.data in transaction mutations is fixed
-export type ParsedAdyenGateway = { data: ParsedPaymentGateway<AdyenGatewayInitializePayload> };
+export type ParsedAdyenGateway = ParsedPaymentGateway<AdyenGatewayInitializePayload>;
 
 export type ParsedPaymentGateways = {
   adyen?: ParsedAdyenGateway;

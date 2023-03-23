@@ -14,6 +14,7 @@ export const PaymentMethods = () => {
   const { /*availablePaymentMethods,*/ availablePaymentGateways } = usePayments();
 
   const { adyen } = availablePaymentGateways;
+  // console.log
 
   return adyen ? <AdyenDropIn config={adyen} /> : null;
   // return showAdyenDropin ? (

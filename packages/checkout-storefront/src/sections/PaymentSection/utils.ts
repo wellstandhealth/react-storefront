@@ -23,16 +23,12 @@ export const getParsedPaymentGatewayConfigs = (
       return result;
     }
 
-    // TMP until nested data.data in all transaction mutations is fixed
-    const { id, data, ...rest } = gatewayConfig;
+    const { id, ...rest } = gatewayConfig;
 
     return {
       ...result,
       [paymentGatewayMap[id as PaymentGatewayId]]: {
         ...rest,
-
-        // TMP until nested data.data in all transaction mutations is fixed
-        data: data?.data as Record<string, any>,
       },
     };
   }, {});

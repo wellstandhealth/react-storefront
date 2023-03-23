@@ -28,11 +28,7 @@ export interface AdyenDropinProps {
   config: ParsedAdyenGateway;
 }
 
-export const useAdyenDropin = ({
-  config: {
-    data: { id },
-  },
-}: AdyenDropinProps) => {
+export const useAdyenDropin = ({ config: { id } }: AdyenDropinProps) => {
   const {
     checkout: { id: checkoutId },
   } = useCheckout();
@@ -114,7 +110,7 @@ export const useAdyenDropin = ({
         return;
       }
 
-      handlePaymentResult((data as AdyenTransactionProcessResponse).data.paymentDetailsResponse);
+      handlePaymentResult((data as AdyenTransactionProcessResponse).paymentDetailsResponse);
     },
   });
 

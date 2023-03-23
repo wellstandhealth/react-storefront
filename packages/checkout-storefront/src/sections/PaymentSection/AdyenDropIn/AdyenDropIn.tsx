@@ -29,7 +29,8 @@ export const AdyenDropIn: FC<AdyenDropinProps> = ({ config }) => {
     }
 
     const createAdyenCheckoutInstance = async () => {
-      console.log(config);
+      console.log({ data: config.data, locale });
+
       const adyenCheckout = await AdyenCheckout(
         createAdyenCheckoutConfig({ ...config.data, locale, onSubmit, onAdditionalDetails })
       );
