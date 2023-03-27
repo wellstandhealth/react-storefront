@@ -118,6 +118,7 @@ export type AccountDelete = {
   user?: Maybe<User>;
 };
 
+/** Represents errors in account mutations. */
 export type AccountError = {
   __typename?: "AccountError";
   /** A type of address that causes the error. */
@@ -160,12 +161,14 @@ export type AccountErrorCode =
   | "OUT_OF_SCOPE_PERMISSION"
   | "OUT_OF_SCOPE_USER"
   | "PASSWORD_ENTIRELY_NUMERIC"
+  | "PASSWORD_RESET_ALREADY_REQUESTED"
   | "PASSWORD_TOO_COMMON"
   | "PASSWORD_TOO_SHORT"
   | "PASSWORD_TOO_SIMILAR"
   | "REQUIRED"
   | "UNIQUE";
 
+/** Fields required to update the user. */
 export type AccountInput = {
   /** Billing address of the customer. */
   defaultBillingAddress?: InputMaybe<AddressInput>;
@@ -190,6 +193,7 @@ export type AccountRegister = {
   user?: Maybe<User>;
 };
 
+/** Fields required to create a user. */
 export type AccountRegisterInput = {
   /** Slug of a channel which will be used to notify users. Optional when only one channel exists. */
   channel?: InputMaybe<Scalars["String"]>;
@@ -493,6 +497,7 @@ export type AddressUpdated = Event & {
   version?: Maybe<Scalars["String"]>;
 };
 
+/** Represents address validation rules for a country. */
 export type AddressValidationData = {
   __typename?: "AddressValidationData";
   addressFormat: Scalars["String"];
@@ -552,6 +557,14 @@ export type App = Node &
     accessToken?: Maybe<Scalars["String"]>;
     /** URL to iframe with the app. */
     appUrl?: Maybe<Scalars["String"]>;
+    /**
+     * The App's author name.
+     *
+     * Added in Saleor 3.13.
+     *
+     * Note: this API is currently in Feature Preview and can be subject to changes at later point.
+     */
+    author?: Maybe<Scalars["String"]>;
     /**
      * URL to iframe with the configuration for the app.
      * @deprecated This field will be removed in Saleor 4.0. Use `appUrl` instead.
@@ -797,7 +810,8 @@ export type AppErrorCode =
   | "OUT_OF_SCOPE_APP"
   | "OUT_OF_SCOPE_PERMISSION"
   | "REQUIRED"
-  | "UNIQUE";
+  | "UNIQUE"
+  | "UNSUPPORTED_SALEOR_VERSION";
 
 /** Represents app data. */
 export type AppExtension = Node & {
@@ -962,6 +976,26 @@ export type AppManifestExtension = {
   target: AppExtensionTargetEnum;
   /** URL of a view where extension's iframe is placed. */
   url: Scalars["String"];
+};
+
+export type AppManifestRequiredSaleorVersion = {
+  __typename?: "AppManifestRequiredSaleorVersion";
+  /**
+   * Required Saleor version as semver range.
+   *
+   * Added in Saleor 3.13.
+   *
+   * Note: this API is currently in Feature Preview and can be subject to changes at later point.
+   */
+  constraint: Scalars["String"];
+  /**
+   * Informs if the Saleor version matches the required one.
+   *
+   * Added in Saleor 3.13.
+   *
+   * Note: this API is currently in Feature Preview and can be subject to changes at later point.
+   */
+  satisfied: Scalars["Boolean"];
 };
 
 export type AppManifestWebhook = {
@@ -3062,6 +3096,14 @@ export type Checkout = Node &
   ObjectWithMetadata & {
     __typename?: "Checkout";
     /**
+     * The authorize status of the checkout.
+     *
+     * Added in Saleor 3.13.
+     *
+     * Note: this API is currently in Feature Preview and can be subject to changes at later point.
+     */
+    authorizeStatus: CheckoutAuthorizeStatusEnum;
+    /**
      * Collection points that can be used for this order.
      *
      * Added in Saleor 3.1.
@@ -3078,6 +3120,14 @@ export type Checkout = Node &
     availableShippingMethods: Array<ShippingMethod>;
     billingAddress?: Maybe<Address>;
     channel: Channel;
+    /**
+     * The charge status of the checkout.
+     *
+     * Added in Saleor 3.13.
+     *
+     * Note: this API is currently in Feature Preview and can be subject to changes at later point.
+     */
+    chargeStatus: CheckoutChargeStatusEnum;
     created: Scalars["DateTime"];
     /**
      * The delivery method selected for this checkout.
@@ -3106,6 +3156,7 @@ export type Checkout = Node &
     isShippingRequired: Scalars["Boolean"];
     /** Checkout language code. */
     languageCode: LanguageCodeEnum;
+    /** @deprecated This field will be removed in Saleor 4.0. Use `updatedAt` instead. */
     lastChange: Scalars["DateTime"];
     /** A list of checkout lines, each containing information about an item in the checkout. */
     lines: Array<CheckoutLine>;
@@ -3180,6 +3231,14 @@ export type Checkout = Node &
     taxExemption: Scalars["Boolean"];
     /** The checkout's token. */
     token: Scalars["UUID"];
+    /**
+     * The difference between the paid and the checkout total amount.
+     *
+     * Added in Saleor 3.13.
+     *
+     * Note: this API is currently in Feature Preview and can be subject to changes at later point.
+     */
+    totalBalance: Money;
     /** The sum of the the checkout line prices, with all the taxes,shipping costs, and discounts included. */
     totalPrice: TaxedMoney;
     /**
@@ -3191,6 +3250,8 @@ export type Checkout = Node &
      */
     transactions?: Maybe<Array<TransactionItem>>;
     translatedDiscountName?: Maybe<Scalars["String"]>;
+    /** Time of last modification of the given checkout. */
+    updatedAt: Scalars["DateTime"];
     user?: Maybe<User>;
     voucherCode?: Maybe<Scalars["String"]>;
   };
@@ -3234,6 +3295,22 @@ export type CheckoutAddressValidationRules = {
   enableFieldsNormalization?: InputMaybe<Scalars["Boolean"]>;
 };
 
+/**
+ * Determine a current authorize status for checkout.
+ *
+ *     We treat the checkout as fully authorized when the sum of authorized and charged
+ *     funds cover the checkout.total.
+ *     We treat the checkout as partially authorized when the sum of authorized and charged
+ *     funds covers only part of the checkout.total
+ *     We treat the checkout as not authorized when the sum of authorized and charged funds
+ *     is 0.
+ *
+ *     NONE - the funds are not authorized
+ *     PARTIAL - the cover funds don't cover fully the checkout's total
+ *     FULL - the cover funds covers the checkout's total
+ */
+export type CheckoutAuthorizeStatusEnum = "FULL" | "NONE" | "PARTIAL";
+
 /** Update billing address in the existing checkout. */
 export type CheckoutBillingAddressUpdate = {
   __typename?: "CheckoutBillingAddressUpdate";
@@ -3243,6 +3320,24 @@ export type CheckoutBillingAddressUpdate = {
   checkoutErrors: Array<CheckoutError>;
   errors: Array<CheckoutError>;
 };
+
+/**
+ * Determine the current charge status for the checkout.
+ *
+ *     The checkout is considered overcharged when the sum of the transactionItem's charge
+ *     amounts exceeds the value of `checkout.total`.
+ *     If the sum of the transactionItem's charge amounts equals
+ *     `checkout.total`, we consider the checkout to be fully charged.
+ *     If the sum of the transactionItem's charge amounts covers a part of the
+ *     `checkout.total`, we treat the checkout as partially charged.
+ *
+ *
+ *     NONE - the funds are not charged.
+ *     PARTIAL - the funds that are charged don't cover the checkout's total
+ *     FULL - the funds that are charged fully cover the checkout's total
+ *     OVERCHARGED - the charged funds are bigger than checkout's total
+ */
+export type CheckoutChargeStatusEnum = "FULL" | "NONE" | "OVERCHARGED" | "PARTIAL";
 
 /** Completes the checkout. As a result a new order is created and a payment charge is made. This action requires a successful payment before it can be performed. In case additional confirmation step as 3D secure is required confirmationNeeded flag will be set to True and no order created until payment is confirmed with second call of this mutation. */
 export type CheckoutComplete = {
@@ -3433,11 +3528,14 @@ export type CheckoutErrorCode =
   | "ZERO_QUANTITY";
 
 export type CheckoutFilterInput = {
+  authorizeStatus?: InputMaybe<Array<CheckoutAuthorizeStatusEnum>>;
   channels?: InputMaybe<Array<Scalars["ID"]>>;
+  chargeStatus?: InputMaybe<Array<CheckoutChargeStatusEnum>>;
   created?: InputMaybe<DateRangeInput>;
   customer?: InputMaybe<Scalars["String"]>;
   metadata?: InputMaybe<Array<MetadataFilter>>;
   search?: InputMaybe<Scalars["String"]>;
+  updatedAt?: InputMaybe<DateRangeInput>;
 };
 
 /**
@@ -3465,6 +3563,27 @@ export type CheckoutFilterShippingMethods = Event & {
    * Note: this API is currently in Feature Preview and can be subject to changes at later point.
    */
   shippingMethods?: Maybe<Array<ShippingMethod>>;
+  /** Saleor version that triggered the event. */
+  version?: Maybe<Scalars["String"]>;
+};
+
+/**
+ * Event sent when checkout is fully paid with transactions.
+ *
+ * Added in Saleor 3.13.
+ *
+ * Note: this API is currently in Feature Preview and can be subject to changes at later point.
+ */
+export type CheckoutFullyPaid = Event & {
+  __typename?: "CheckoutFullyPaid";
+  /** The checkout the event relates to. */
+  checkout?: Maybe<Checkout>;
+  /** Time of the event. */
+  issuedAt?: Maybe<Scalars["DateTime"]>;
+  /** The user or application that triggered the event. */
+  issuingPrincipal?: Maybe<IssuingPrincipal>;
+  /** The application receiving the webhook. */
+  recipient?: Maybe<App>;
   /** Saleor version that triggered the event. */
   version?: Maybe<Scalars["String"]>;
 };
@@ -5814,7 +5933,7 @@ export type ExternalAuthentication = {
   name?: Maybe<Scalars["String"]>;
 };
 
-/** Prepare external authentication url for user by custom plugin. */
+/** Prepare external authentication URL for user by custom plugin. */
 export type ExternalAuthenticationUrl = {
   __typename?: "ExternalAuthenticationUrl";
   /** @deprecated This field will be removed in Saleor 4.0. Use `errors` field instead. */
@@ -8210,6 +8329,14 @@ export type Manifest = {
    */
   audience?: Maybe<Scalars["String"]>;
   /**
+   * The App's author name.
+   *
+   * Added in Saleor 3.13.
+   *
+   * Note: this API is currently in Feature Preview and can be subject to changes at later point.
+   */
+  author?: Maybe<Scalars["String"]>;
+  /**
    * URL to iframe with the configuration for the app.
    * @deprecated This field will be removed in Saleor 4.0. Use `appUrl` instead.
    */
@@ -8225,6 +8352,14 @@ export type Manifest = {
   identifier: Scalars["String"];
   name: Scalars["String"];
   permissions?: Maybe<Array<Permission>>;
+  /**
+   * Determines the app's required Saleor version as semver range.
+   *
+   * Added in Saleor 3.13.
+   *
+   * Note: this API is currently in Feature Preview and can be subject to changes at later point.
+   */
+  requiredSaleorVersion?: Maybe<AppManifestRequiredSaleorVersion>;
   supportUrl?: Maybe<Scalars["String"]>;
   tokenTargetUrl?: Maybe<Scalars["String"]>;
   version: Scalars["String"];
@@ -9537,7 +9672,7 @@ export type Mutation = {
    * Requires one of the following permissions: MANAGE_PRODUCTS.
    */
   exportProducts?: Maybe<ExportProducts>;
-  /** Prepare external authentication url for user by custom plugin. */
+  /** Prepare external authentication URL for user by custom plugin. */
   externalAuthenticationUrl?: Maybe<ExternalAuthenticationUrl>;
   /** Logout user by custom plugin. */
   externalLogout?: Maybe<ExternalLogout>;
@@ -12463,7 +12598,7 @@ export type Order = Node &
      *
      * Note: this API is currently in Feature Preview and can be subject to changes at later point.
      *
-     * Requires one of the following permissions: AUTHENTICATED_STAFF_USER.
+     * Requires one of the following permissions: AUTHENTICATED_STAFF_USER, AUTHENTICATED_APP.
      */
     shippingTaxClass?: Maybe<TaxClass>;
     /**
@@ -12678,16 +12813,17 @@ export type OrderAddNoteInput = {
  * Determine a current authorize status for order.
  *
  *     We treat the order as fully authorized when the sum of authorized and charged funds
- *     cover the order.total.
+ *     cover the `order.total`-`order.totalGrantedRefund`.
  *     We treat the order as partially authorized when the sum of authorized and charged
- *     funds covers only part of the order.total
+ *     funds covers only part of the `order.total`-`order.totalGrantedRefund`.
  *     We treat the order as not authorized when the sum of authorized and charged funds is
  *     0.
  *
  *     NONE - the funds are not authorized
- *     PARTIAL - the funds that are authorized or charged don't cover fully the order's
- *     total
- *     FULL - the funds that are authorized or charged fully cover the order's total
+ *     PARTIAL - the funds that are authorized and charged don't cover fully the
+ *     `order.total`-`order.totalGrantedRefund`
+ *     FULL - the funds that are authorized and charged fully cover the
+ *     `order.total`-`order.totalGrantedRefund`
  */
 export type OrderAuthorizeStatusEnum = "FULL" | "NONE" | "PARTIAL";
 
@@ -12757,15 +12893,22 @@ export type OrderCapture = {
 /**
  * Determine the current charge status for the order.
  *
- *     We treat the order as overcharged when the charged amount is bigger that order.total
- *     We treat the order as fully charged when the charged amount is equal to order.total.
- *     We treat the order as partially charged when the charged amount covers only part of
- *     the order.total
+ *     An order is considered overcharged when the sum of the
+ *     transactionItem's charge amounts exceeds the value of
+ *     `order.total` - `order.totalGrantedRefund`.
+ *     If the sum of the transactionItem's charge amounts equals
+ *     `order.total` - `order.totalGrantedRefund`, we consider the order to be fully
+ *     charged.
+ *     If the sum of the transactionItem's charge amounts covers a part of the
+ *     `order.total` - `order.totalGrantedRefund`, we treat the order as partially charged.
  *
  *     NONE - the funds are not charged.
- *     PARTIAL - the funds that are charged don't cover the order's total
- *     FULL - the funds that are charged fully cover the order's total
- *     OVERCHARGED - the charged funds are bigger than order's total
+ *     PARTIAL - the funds that are charged don't cover the
+ *     `order.total`-`order.totalGrantedRefund`
+ *     FULL - the funds that are charged fully cover the
+ *     `order.total`-`order.totalGrantedRefund`
+ *     OVERCHARGED - the charged funds are bigger than the
+ *     `order.total`-`order.totalGrantedRefund`
  */
 export type OrderChargeStatusEnum = "FULL" | "NONE" | "OVERCHARGED" | "PARTIAL";
 
@@ -13518,7 +13661,7 @@ export type OrderLine = Node &
      *
      * Note: this API is currently in Feature Preview and can be subject to changes at later point.
      *
-     * Requires one of the following permissions: AUTHENTICATED_STAFF_USER.
+     * Requires one of the following permissions: AUTHENTICATED_STAFF_USER, AUTHENTICATED_APP.
      */
     taxClass?: Maybe<TaxClass>;
     /**
@@ -13812,9 +13955,19 @@ export type OrderSettings = {
   /** When enabled, all non-shippable gift card orders will be fulfilled automatically. */
   automaticallyFulfillNonShippableGiftCard: Scalars["Boolean"];
   /**
-   * Determine what strategy will be used to mark the order as paid. Based on the choosen option the proper object will be created and attached to the order, when order is manualy marked as paid.
+   * Determine the transaction flow strategy to be used. Include the selected option in the payload sent to the payment app, as a requested action for the transaction.
+   *
+   * Added in Saleor 3.13.
+   *
+   * Note: this API is currently in Feature Preview and can be subject to changes at later point.
+   */
+  defaultTransactionFlowStrategy: TransactionFlowStrategyEnum;
+  /**
+   * Determine what strategy will be used to mark the order as paid. Based on the chosen option, the proper object will be created and attached to the order when it's manually marked as paid.
    * `PAYMENT_FLOW` - [default option] creates the `Payment` object.
    * `TRANSACTION_FLOW` - creates the `TransactionItem` object.
+   *
+   * Added in Saleor 3.13.
    *
    * Note: this API is currently in Feature Preview and can be subject to changes at later point.
    */
@@ -13840,9 +13993,19 @@ export type OrderSettingsInput = {
   /** When enabled, all non-shippable gift card orders will be fulfilled automatically. By defualt set to True. */
   automaticallyFulfillNonShippableGiftCard?: InputMaybe<Scalars["Boolean"]>;
   /**
-   * Determine what strategy will be used to mark the order as paid. Based on the choosen option the proper object will be created and attached to the order, when order is manualy marked as paid.
+   * Determine the transaction flow strategy to be used. Include the selected option in the payload sent to the payment app, as a requested action for the transaction.
+   *
+   * Added in Saleor 3.13.
+   *
+   * Note: this API is currently in Feature Preview and can be subject to changes at later point.
+   */
+  defaultTransactionFlowStrategy?: InputMaybe<TransactionFlowStrategyEnum>;
+  /**
+   * Determine what strategy will be used to mark the order as paid. Based on the chosen option, the proper object will be created and attached to the order when it's manually marked as paid.
    * `PAYMENT_FLOW` - [default option] creates the `Payment` object.
    * `TRANSACTION_FLOW` - creates the `TransactionItem` object.
+   *
+   * Added in Saleor 3.13.
    *
    * Note: this API is currently in Feature Preview and can be subject to changes at later point.
    */
@@ -15510,6 +15673,7 @@ export type PermissionGroupFilterInput = {
   search?: InputMaybe<Scalars["String"]>;
 };
 
+/** Sorting options for permission groups. */
 export type PermissionGroupSortField =
   /** Sort permission group accounts by name. */
   "NAME";
@@ -15847,7 +16011,7 @@ export type Product = Node &
     /**
      * Tax class assigned to this product type. All products of this product type use this tax class, unless it's overridden in the `Product` type.
      *
-     * Requires one of the following permissions: AUTHENTICATED_STAFF_USER.
+     * Requires one of the following permissions: AUTHENTICATED_STAFF_USER, AUTHENTICATED_APP.
      */
     taxClass?: Maybe<TaxClass>;
     /**
@@ -16230,7 +16394,7 @@ export type ProductCreateInput = {
   /**
    * Tax rate for enabled tax gateway.
    *
-   * DEPRECATED: this field will be removed in Saleor 4.0. Use tax classes to control the tax calculation for a product.
+   * DEPRECATED: this field will be removed in Saleor 4.0. Use tax classes to control the tax calculation for a product. If taxCode is provided, Saleor will try to find a tax class with given code (codes are stored in metadata) and assign it. If no tax class is found, it would be created and assigned.
    */
   taxCode?: InputMaybe<Scalars["String"]>;
   /** Weight of the Product. */
@@ -16491,7 +16655,7 @@ export type ProductInput = {
   /**
    * Tax rate for enabled tax gateway.
    *
-   * DEPRECATED: this field will be removed in Saleor 4.0. Use tax classes to control the tax calculation for a product.
+   * DEPRECATED: this field will be removed in Saleor 4.0. Use tax classes to control the tax calculation for a product. If taxCode is provided, Saleor will try to find a tax class with given code (codes are stored in metadata) and assign it. If no tax class is found, it would be created and assigned.
    */
   taxCode?: InputMaybe<Scalars["String"]>;
   /** Weight of the Product. */
@@ -17038,7 +17202,7 @@ export type ProductType = Node &
     /**
      * Tax class assigned to this product type. All products of this product type use this tax class, unless it's overridden in the `Product` type.
      *
-     * Requires one of the following permissions: AUTHENTICATED_STAFF_USER.
+     * Requires one of the following permissions: AUTHENTICATED_STAFF_USER, AUTHENTICATED_APP.
      */
     taxClass?: Maybe<TaxClass>;
     /**
@@ -17194,7 +17358,7 @@ export type ProductTypeInput = {
   /**
    * Tax rate for enabled tax gateway.
    *
-   * DEPRECATED: this field will be removed in Saleor 4.0.. Use tax classes to control the tax calculation for a product type.
+   * DEPRECATED: this field will be removed in Saleor 4.0.. Use tax classes to control the tax calculation for a product type. If taxCode is provided, Saleor will try to find a tax class with given code (codes are stored in metadata) and assign it. If no tax class is found, it would be created and assigned.
    */
   taxCode?: InputMaybe<Scalars["String"]>;
   /** List of attributes used to distinguish between different variants of a product. */
@@ -20172,7 +20336,7 @@ export type ShippingMethodType = Node &
     /**
      * Tax class assigned to this shipping method.
      *
-     * Requires one of the following permissions: MANAGE_TAXES, MANAGE_SHIPPING.
+     * Requires one of the following permissions: AUTHENTICATED_STAFF_USER, AUTHENTICATED_APP.
      */
     taxClass?: Maybe<TaxClass>;
     /** Returns translated shipping method fields for the given language code. */
@@ -21223,6 +21387,7 @@ export type StaffCreate = {
   user?: Maybe<User>;
 };
 
+/** Fields required to create a staff user. */
 export type StaffCreateInput = {
   /** List of permission group IDs to which user should be assigned. */
   addGroups?: InputMaybe<Array<Scalars["ID"]>>;
@@ -21313,6 +21478,7 @@ export type StaffError = {
   users?: Maybe<Array<Scalars["ID"]>>;
 };
 
+/** Represents status of a staff account. */
 export type StaffMemberStatus =
   /** User account has been activated. */
   | "ACTIVE"
@@ -21392,6 +21558,7 @@ export type StaffUpdate = {
   user?: Maybe<User>;
 };
 
+/** Fields required to update a staff user. */
 export type StaffUpdateInput = {
   /** List of permission group IDs to which user should be assigned. */
   addGroups?: InputMaybe<Array<Scalars["ID"]>>;
@@ -23719,6 +23886,7 @@ export type UserCreateInput = {
 
 export type UserOrApp = App | User;
 
+/** Represents user's permissions. */
 export type UserPermission = {
   __typename?: "UserPermission";
   /** Internal code for permission. */
@@ -23729,6 +23897,7 @@ export type UserPermission = {
   sourcePermissionGroups?: Maybe<Array<Group>>;
 };
 
+/** Represents user's permissions. */
 export type UserPermissionSourcePermissionGroupsArgs = {
   userId: Scalars["ID"];
 };
@@ -25012,6 +25181,7 @@ export type WebhookEventTypeAsyncEnum =
   | "CHANNEL_UPDATED"
   /** A new checkout is created. */
   | "CHECKOUT_CREATED"
+  | "CHECKOUT_FULLY_PAID"
   /**
    * A checkout metadata is updated.
    *
@@ -25341,6 +25511,7 @@ export type WebhookEventTypeEnum =
   | "CHECKOUT_CREATED"
   /** Filter shipping methods for checkout. */
   | "CHECKOUT_FILTER_SHIPPING_METHODS"
+  | "CHECKOUT_FULLY_PAID"
   /**
    * A checkout metadata is updated.
    *
@@ -25756,6 +25927,7 @@ export type WebhookSampleEventTypeEnum =
   | "CHANNEL_STATUS_CHANGED"
   | "CHANNEL_UPDATED"
   | "CHECKOUT_CREATED"
+  | "CHECKOUT_FULLY_PAID"
   | "CHECKOUT_METADATA_UPDATED"
   | "CHECKOUT_UPDATED"
   | "COLLECTION_CREATED"
@@ -25960,6 +26132,7 @@ export type _Entity =
   | Category
   | Collection
   | Group
+  | Order
   | PageType
   | Product
   | ProductMedia
@@ -28264,6 +28437,7 @@ export type TransactionInitializeMutationVariables = Exact<{
   checkoutId: Scalars["ID"];
   action?: InputMaybe<TransactionFlowStrategyEnum>;
   paymentGateway: PaymentGatewayToInitialize;
+  amount?: InputMaybe<Scalars["PositiveDecimal"]>;
 }>;
 
 export type TransactionInitializeMutation = {
@@ -29126,8 +29300,14 @@ export const TransactionInitializeDocument = gql`
     $checkoutId: ID!
     $action: TransactionFlowStrategyEnum
     $paymentGateway: PaymentGatewayToInitialize!
+    $amount: PositiveDecimal
   ) {
-    transactionInitialize(id: $checkoutId, action: $action, paymentGateway: $paymentGateway) {
+    transactionInitialize(
+      id: $checkoutId
+      action: $action
+      paymentGateway: $paymentGateway
+      amount: $amount
+    ) {
       transaction {
         id
         actions

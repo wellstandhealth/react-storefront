@@ -333,7 +333,7 @@
       {
         "kind": "OBJECT",
         "name": "AccountError",
-        "description": null,
+        "description": "Represents errors in account mutations.",
         "fields": [
           {
             "name": "addressType",
@@ -570,6 +570,12 @@
             "deprecationReason": null
           },
           {
+            "name": "PASSWORD_RESET_ALREADY_REQUESTED",
+            "description": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "PASSWORD_TOO_COMMON",
             "description": null,
             "isDeprecated": false,
@@ -605,7 +611,7 @@
       {
         "kind": "INPUT_OBJECT",
         "name": "AccountInput",
-        "description": null,
+        "description": "Fields required to update the user.",
         "fields": null,
         "inputFields": [
           {
@@ -759,7 +765,7 @@
       {
         "kind": "INPUT_OBJECT",
         "name": "AccountRegisterInput",
-        "description": null,
+        "description": "Fields required to create a user.",
         "fields": null,
         "inputFields": [
           {
@@ -2206,7 +2212,7 @@
       {
         "kind": "OBJECT",
         "name": "AddressValidationData",
-        "description": null,
+        "description": "Represents address validation rules for a country.",
         "fields": [
           {
             "name": "addressFormat",
@@ -2670,6 +2676,18 @@
           {
             "name": "appUrl",
             "description": "URL to iframe with the app.",
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "author",
+            "description": "The App's author name.\n\nAdded in Saleor 3.13.\n\nNote: this API is currently in Feature Preview and can be subject to changes at later point.",
             "args": [],
             "type": {
               "kind": "SCALAR",
@@ -3812,6 +3830,12 @@
             "description": null,
             "isDeprecated": false,
             "deprecationReason": null
+          },
+          {
+            "name": "UNSUPPORTED_SALEOR_VERSION",
+            "description": null,
+            "isDeprecated": false,
+            "deprecationReason": null
           }
         ],
         "possibleTypes": null
@@ -4831,6 +4855,49 @@
               "ofType": {
                 "kind": "SCALAR",
                 "name": "String",
+                "ofType": null
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          }
+        ],
+        "inputFields": null,
+        "interfaces": [],
+        "enumValues": null,
+        "possibleTypes": null
+      },
+      {
+        "kind": "OBJECT",
+        "name": "AppManifestRequiredSaleorVersion",
+        "description": null,
+        "fields": [
+          {
+            "name": "constraint",
+            "description": "Required Saleor version as semver range.\n\nAdded in Saleor 3.13.\n\nNote: this API is currently in Feature Preview and can be subject to changes at later point.",
+            "args": [],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "satisfied",
+            "description": "Informs if the Saleor version matches the required one.\n\nAdded in Saleor 3.13.\n\nNote: this API is currently in Feature Preview and can be subject to changes at later point.",
+            "args": [],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "Boolean",
                 "ofType": null
               }
             },
@@ -14557,6 +14624,22 @@
         "description": "Checkout object.",
         "fields": [
           {
+            "name": "authorizeStatus",
+            "description": "The authorize status of the checkout.\n\nAdded in Saleor 3.13.\n\nNote: this API is currently in Feature Preview and can be subject to changes at later point.",
+            "args": [],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "ENUM",
+                "name": "CheckoutAuthorizeStatusEnum",
+                "ofType": null
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "availableCollectionPoints",
             "description": "Collection points that can be used for this order.\n\nAdded in Saleor 3.1.\n\nNote: this API is currently in Feature Preview and can be subject to changes at later point.",
             "args": [],
@@ -14650,6 +14733,22 @@
               "ofType": {
                 "kind": "OBJECT",
                 "name": "Channel",
+                "ofType": null
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "chargeStatus",
+            "description": "The charge status of the checkout.\n\nAdded in Saleor 3.13.\n\nNote: this API is currently in Feature Preview and can be subject to changes at later point.",
+            "args": [],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "ENUM",
+                "name": "CheckoutChargeStatusEnum",
                 "ofType": null
               }
             },
@@ -14821,8 +14920,8 @@
                 "ofType": null
               }
             },
-            "isDeprecated": false,
-            "deprecationReason": null
+            "isDeprecated": true,
+            "deprecationReason": "This field will be removed in Saleor 4.0. Use `updatedAt` instead."
           },
           {
             "name": "lines",
@@ -15177,6 +15276,22 @@
             "deprecationReason": null
           },
           {
+            "name": "totalBalance",
+            "description": "The difference between the paid and the checkout total amount.\n\nAdded in Saleor 3.13.\n\nNote: this API is currently in Feature Preview and can be subject to changes at later point.",
+            "args": [],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "OBJECT",
+                "name": "Money",
+                "ofType": null
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "totalPrice",
             "description": "The sum of the the checkout line prices, with all the taxes,shipping costs, and discounts included.",
             "args": [],
@@ -15220,6 +15335,22 @@
               "kind": "SCALAR",
               "name": "String",
               "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "updatedAt",
+            "description": "Time of last modification of the given checkout.",
+            "args": [],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "DateTime",
+                "ofType": null
+              }
             },
             "isDeprecated": false,
             "deprecationReason": null
@@ -15384,6 +15515,35 @@
         "possibleTypes": null
       },
       {
+        "kind": "ENUM",
+        "name": "CheckoutAuthorizeStatusEnum",
+        "description": "Determine a current authorize status for checkout.\n\n    We treat the checkout as fully authorized when the sum of authorized and charged\n    funds cover the checkout.total.\n    We treat the checkout as partially authorized when the sum of authorized and charged\n    funds covers only part of the checkout.total\n    We treat the checkout as not authorized when the sum of authorized and charged funds\n    is 0.\n\n    NONE - the funds are not authorized\n    PARTIAL - the cover funds don't cover fully the checkout's total\n    FULL - the cover funds covers the checkout's total",
+        "fields": null,
+        "inputFields": null,
+        "interfaces": null,
+        "enumValues": [
+          {
+            "name": "FULL",
+            "description": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "NONE",
+            "description": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "PARTIAL",
+            "description": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          }
+        ],
+        "possibleTypes": null
+      },
+      {
         "kind": "OBJECT",
         "name": "CheckoutBillingAddressUpdate",
         "description": "Update billing address in the existing checkout.",
@@ -15452,6 +15612,41 @@
         "inputFields": null,
         "interfaces": [],
         "enumValues": null,
+        "possibleTypes": null
+      },
+      {
+        "kind": "ENUM",
+        "name": "CheckoutChargeStatusEnum",
+        "description": "Determine the current charge status for the checkout.\n\n    The checkout is considered overcharged when the sum of the transactionItem's charge\n    amounts exceeds the value of `checkout.total`.\n    If the sum of the transactionItem's charge amounts equals\n    `checkout.total`, we consider the checkout to be fully charged.\n    If the sum of the transactionItem's charge amounts covers a part of the\n    `checkout.total`, we treat the checkout as partially charged.\n\n\n    NONE - the funds are not charged.\n    PARTIAL - the funds that are charged don't cover the checkout's total\n    FULL - the funds that are charged fully cover the checkout's total\n    OVERCHARGED - the charged funds are bigger than checkout's total",
+        "fields": null,
+        "inputFields": null,
+        "interfaces": null,
+        "enumValues": [
+          {
+            "name": "FULL",
+            "description": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "NONE",
+            "description": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "OVERCHARGED",
+            "description": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "PARTIAL",
+            "description": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          }
+        ],
         "possibleTypes": null
       },
       {
@@ -16475,6 +16670,26 @@
         "fields": null,
         "inputFields": [
           {
+            "name": "authorizeStatus",
+            "description": null,
+            "type": {
+              "kind": "LIST",
+              "name": null,
+              "ofType": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "ENUM",
+                  "name": "CheckoutAuthorizeStatusEnum",
+                  "ofType": null
+                }
+              }
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "channels",
             "description": null,
             "type": {
@@ -16486,6 +16701,26 @@
                 "ofType": {
                   "kind": "SCALAR",
                   "name": "ID",
+                  "ofType": null
+                }
+              }
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "chargeStatus",
+            "description": null,
+            "type": {
+              "kind": "LIST",
+              "name": null,
+              "ofType": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "ENUM",
+                  "name": "CheckoutChargeStatusEnum",
                   "ofType": null
                 }
               }
@@ -16544,6 +16779,18 @@
             "type": {
               "kind": "SCALAR",
               "name": "String",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "updatedAt",
+            "description": null,
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "DateRangeInput",
               "ofType": null
             },
             "defaultValue": null,
@@ -16624,6 +16871,83 @@
                   "ofType": null
                 }
               }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "version",
+            "description": "Saleor version that triggered the event.",
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          }
+        ],
+        "inputFields": null,
+        "interfaces": [
+          {
+            "kind": "INTERFACE",
+            "name": "Event",
+            "ofType": null
+          }
+        ],
+        "enumValues": null,
+        "possibleTypes": null
+      },
+      {
+        "kind": "OBJECT",
+        "name": "CheckoutFullyPaid",
+        "description": "Event sent when checkout is fully paid with transactions.\n\nAdded in Saleor 3.13.\n\nNote: this API is currently in Feature Preview and can be subject to changes at later point.",
+        "fields": [
+          {
+            "name": "checkout",
+            "description": "The checkout the event relates to.",
+            "args": [],
+            "type": {
+              "kind": "OBJECT",
+              "name": "Checkout",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "issuedAt",
+            "description": "Time of the event.",
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "DateTime",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "issuingPrincipal",
+            "description": "The user or application that triggered the event.",
+            "args": [],
+            "type": {
+              "kind": "UNION",
+              "name": "IssuingPrincipal",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "recipient",
+            "description": "The application receiving the webhook.",
+            "args": [],
+            "type": {
+              "kind": "OBJECT",
+              "name": "App",
+              "ofType": null
             },
             "isDeprecated": false,
             "deprecationReason": null
@@ -26933,6 +27257,11 @@
           },
           {
             "kind": "OBJECT",
+            "name": "CheckoutFullyPaid",
+            "ofType": null
+          },
+          {
+            "kind": "OBJECT",
             "name": "CheckoutMetadataUpdated",
             "ofType": null
           },
@@ -29278,7 +29607,7 @@
       {
         "kind": "OBJECT",
         "name": "ExternalAuthenticationUrl",
-        "description": "Prepare external authentication url for user by custom plugin.",
+        "description": "Prepare external authentication URL for user by custom plugin.",
         "fields": [
           {
             "name": "accountErrors",
@@ -41221,6 +41550,18 @@
             "deprecationReason": null
           },
           {
+            "name": "author",
+            "description": "The App's author name.\n\nAdded in Saleor 3.13.\n\nNote: this API is currently in Feature Preview and can be subject to changes at later point.",
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "configurationUrl",
             "description": "URL to iframe with the configuration for the app.",
             "args": [],
@@ -41340,6 +41681,18 @@
                   "ofType": null
                 }
               }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "requiredSaleorVersion",
+            "description": "Determines the app's required Saleor version as semver range.\n\nAdded in Saleor 3.13.\n\nNote: this API is currently in Feature Preview and can be subject to changes at later point.",
+            "args": [],
+            "type": {
+              "kind": "OBJECT",
+              "name": "AppManifestRequiredSaleorVersion",
+              "ofType": null
             },
             "isDeprecated": false,
             "deprecationReason": null
@@ -49362,7 +49715,7 @@
           },
           {
             "name": "externalAuthenticationUrl",
-            "description": "Prepare external authentication url for user by custom plugin.",
+            "description": "Prepare external authentication URL for user by custom plugin.",
             "args": [
               {
                 "name": "input",
@@ -59587,7 +59940,7 @@
           },
           {
             "name": "shippingTaxClass",
-            "description": "Denormalized tax class assigned to the shipping method.\n\nAdded in Saleor 3.9.\n\nNote: this API is currently in Feature Preview and can be subject to changes at later point.\n\nRequires one of the following permissions: AUTHENTICATED_STAFF_USER.",
+            "description": "Denormalized tax class assigned to the shipping method.\n\nAdded in Saleor 3.9.\n\nNote: this API is currently in Feature Preview and can be subject to changes at later point.\n\nRequires one of the following permissions: AUTHENTICATED_STAFF_USER, AUTHENTICATED_APP.",
             "args": [],
             "type": {
               "kind": "OBJECT",
@@ -60262,7 +60615,7 @@
       {
         "kind": "ENUM",
         "name": "OrderAuthorizeStatusEnum",
-        "description": "Determine a current authorize status for order.\n\n    We treat the order as fully authorized when the sum of authorized and charged funds\n    cover the order.total.\n    We treat the order as partially authorized when the sum of authorized and charged\n    funds covers only part of the order.total\n    We treat the order as not authorized when the sum of authorized and charged funds is\n    0.\n\n    NONE - the funds are not authorized\n    PARTIAL - the funds that are authorized or charged don't cover fully the order's\n    total\n    FULL - the funds that are authorized or charged fully cover the order's total",
+        "description": "Determine a current authorize status for order.\n\n    We treat the order as fully authorized when the sum of authorized and charged funds\n    cover the `order.total`-`order.totalGrantedRefund`.\n    We treat the order as partially authorized when the sum of authorized and charged\n    funds covers only part of the `order.total`-`order.totalGrantedRefund`.\n    We treat the order as not authorized when the sum of authorized and charged funds is\n    0.\n\n    NONE - the funds are not authorized\n    PARTIAL - the funds that are authorized and charged don't cover fully the\n    `order.total`-`order.totalGrantedRefund`\n    FULL - the funds that are authorized and charged fully cover the\n    `order.total`-`order.totalGrantedRefund`",
         "fields": null,
         "inputFields": null,
         "interfaces": null,
@@ -60585,7 +60938,7 @@
       {
         "kind": "ENUM",
         "name": "OrderChargeStatusEnum",
-        "description": "Determine the current charge status for the order.\n\n    We treat the order as overcharged when the charged amount is bigger that order.total\n    We treat the order as fully charged when the charged amount is equal to order.total.\n    We treat the order as partially charged when the charged amount covers only part of\n    the order.total\n\n    NONE - the funds are not charged.\n    PARTIAL - the funds that are charged don't cover the order's total\n    FULL - the funds that are charged fully cover the order's total\n    OVERCHARGED - the charged funds are bigger than order's total",
+        "description": "Determine the current charge status for the order.\n\n    An order is considered overcharged when the sum of the\n    transactionItem's charge amounts exceeds the value of\n    `order.total` - `order.totalGrantedRefund`.\n    If the sum of the transactionItem's charge amounts equals\n    `order.total` - `order.totalGrantedRefund`, we consider the order to be fully\n    charged.\n    If the sum of the transactionItem's charge amounts covers a part of the\n    `order.total` - `order.totalGrantedRefund`, we treat the order as partially charged.\n\n    NONE - the funds are not charged.\n    PARTIAL - the funds that are charged don't cover the\n    `order.total`-`order.totalGrantedRefund`\n    FULL - the funds that are charged fully cover the\n    `order.total`-`order.totalGrantedRefund`\n    OVERCHARGED - the charged funds are bigger than the\n    `order.total`-`order.totalGrantedRefund`",
         "fields": null,
         "inputFields": null,
         "interfaces": null,
@@ -64606,7 +64959,7 @@
           },
           {
             "name": "taxClass",
-            "description": "Denormalized tax class of the product in this order line.\n\nAdded in Saleor 3.9.\n\nNote: this API is currently in Feature Preview and can be subject to changes at later point.\n\nRequires one of the following permissions: AUTHENTICATED_STAFF_USER.",
+            "description": "Denormalized tax class of the product in this order line.\n\nAdded in Saleor 3.9.\n\nNote: this API is currently in Feature Preview and can be subject to changes at later point.\n\nRequires one of the following permissions: AUTHENTICATED_STAFF_USER, AUTHENTICATED_APP.",
             "args": [],
             "type": {
               "kind": "OBJECT",
@@ -66080,8 +66433,24 @@
             "deprecationReason": null
           },
           {
+            "name": "defaultTransactionFlowStrategy",
+            "description": "Determine the transaction flow strategy to be used. Include the selected option in the payload sent to the payment app, as a requested action for the transaction.\n\nAdded in Saleor 3.13.\n\nNote: this API is currently in Feature Preview and can be subject to changes at later point.",
+            "args": [],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "ENUM",
+                "name": "TransactionFlowStrategyEnum",
+                "ofType": null
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "markAsPaidStrategy",
-            "description": "Determine what strategy will be used to mark the order as paid. Based on the choosen option the proper object will be created and attached to the order, when order is manualy marked as paid.\n`PAYMENT_FLOW` - [default option] creates the `Payment` object.\n`TRANSACTION_FLOW` - creates the `TransactionItem` object.\n\nNote: this API is currently in Feature Preview and can be subject to changes at later point.",
+            "description": "Determine what strategy will be used to mark the order as paid. Based on the chosen option, the proper object will be created and attached to the order when it's manually marked as paid.\n`PAYMENT_FLOW` - [default option] creates the `Payment` object.\n`TRANSACTION_FLOW` - creates the `TransactionItem` object.\n\nAdded in Saleor 3.13.\n\nNote: this API is currently in Feature Preview and can be subject to changes at later point.",
             "args": [],
             "type": {
               "kind": "NON_NULL",
@@ -66200,8 +66569,20 @@
             "deprecationReason": null
           },
           {
+            "name": "defaultTransactionFlowStrategy",
+            "description": "Determine the transaction flow strategy to be used. Include the selected option in the payload sent to the payment app, as a requested action for the transaction.\n\nAdded in Saleor 3.13.\n\nNote: this API is currently in Feature Preview and can be subject to changes at later point.",
+            "type": {
+              "kind": "ENUM",
+              "name": "TransactionFlowStrategyEnum",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "markAsPaidStrategy",
-            "description": "Determine what strategy will be used to mark the order as paid. Based on the choosen option the proper object will be created and attached to the order, when order is manualy marked as paid.\n`PAYMENT_FLOW` - [default option] creates the `Payment` object.\n`TRANSACTION_FLOW` - creates the `TransactionItem` object.\n\nNote: this API is currently in Feature Preview and can be subject to changes at later point.",
+            "description": "Determine what strategy will be used to mark the order as paid. Based on the chosen option, the proper object will be created and attached to the order when it's manually marked as paid.\n`PAYMENT_FLOW` - [default option] creates the `Payment` object.\n`TRANSACTION_FLOW` - creates the `TransactionItem` object.\n\nAdded in Saleor 3.13.\n\nNote: this API is currently in Feature Preview and can be subject to changes at later point.",
             "type": {
               "kind": "ENUM",
               "name": "MarkAsPaidStrategyEnum",
@@ -73978,7 +74359,7 @@
       {
         "kind": "ENUM",
         "name": "PermissionGroupSortField",
-        "description": null,
+        "description": "Sorting options for permission groups.",
         "fields": null,
         "inputFields": null,
         "interfaces": null,
@@ -75846,7 +76227,7 @@
           },
           {
             "name": "taxClass",
-            "description": "Tax class assigned to this product type. All products of this product type use this tax class, unless it's overridden in the `Product` type.\n\nRequires one of the following permissions: AUTHENTICATED_STAFF_USER.",
+            "description": "Tax class assigned to this product type. All products of this product type use this tax class, unless it's overridden in the `Product` type.\n\nRequires one of the following permissions: AUTHENTICATED_STAFF_USER, AUTHENTICATED_APP.",
             "args": [],
             "type": {
               "kind": "OBJECT",
@@ -77440,7 +77821,7 @@
           },
           {
             "name": "taxCode",
-            "description": "Tax rate for enabled tax gateway.\n\nDEPRECATED: this field will be removed in Saleor 4.0. Use tax classes to control the tax calculation for a product.",
+            "description": "Tax rate for enabled tax gateway.\n\nDEPRECATED: this field will be removed in Saleor 4.0. Use tax classes to control the tax calculation for a product. If taxCode is provided, Saleor will try to find a tax class with given code (codes are stored in metadata) and assign it. If no tax class is found, it would be created and assigned.",
             "type": {
               "kind": "SCALAR",
               "name": "String",
@@ -78666,7 +79047,7 @@
           },
           {
             "name": "taxCode",
-            "description": "Tax rate for enabled tax gateway.\n\nDEPRECATED: this field will be removed in Saleor 4.0. Use tax classes to control the tax calculation for a product.",
+            "description": "Tax rate for enabled tax gateway.\n\nDEPRECATED: this field will be removed in Saleor 4.0. Use tax classes to control the tax calculation for a product. If taxCode is provided, Saleor will try to find a tax class with given code (codes are stored in metadata) and assign it. If no tax class is found, it would be created and assigned.",
             "type": {
               "kind": "SCALAR",
               "name": "String",
@@ -81088,7 +81469,7 @@
           },
           {
             "name": "taxClass",
-            "description": "Tax class assigned to this product type. All products of this product type use this tax class, unless it's overridden in the `Product` type.\n\nRequires one of the following permissions: AUTHENTICATED_STAFF_USER.",
+            "description": "Tax class assigned to this product type. All products of this product type use this tax class, unless it's overridden in the `Product` type.\n\nRequires one of the following permissions: AUTHENTICATED_STAFF_USER, AUTHENTICATED_APP.",
             "args": [],
             "type": {
               "kind": "OBJECT",
@@ -81772,7 +82153,7 @@
           },
           {
             "name": "taxCode",
-            "description": "Tax rate for enabled tax gateway.\n\nDEPRECATED: this field will be removed in Saleor 4.0.. Use tax classes to control the tax calculation for a product type.",
+            "description": "Tax rate for enabled tax gateway.\n\nDEPRECATED: this field will be removed in Saleor 4.0.. Use tax classes to control the tax calculation for a product type. If taxCode is provided, Saleor will try to find a tax class with given code (codes are stored in metadata) and assign it. If no tax class is found, it would be created and assigned.",
             "type": {
               "kind": "SCALAR",
               "name": "String",
@@ -89541,7 +89922,7 @@
               },
               {
                 "name": "sku",
-                "description": "Sku of the product variant.",
+                "description": "SKU of the product variant.",
                 "type": {
                   "kind": "SCALAR",
                   "name": "String",
@@ -95614,7 +95995,7 @@
           },
           {
             "name": "taxClass",
-            "description": "Tax class assigned to this shipping method.\n\nRequires one of the following permissions: MANAGE_TAXES, MANAGE_SHIPPING.",
+            "description": "Tax class assigned to this shipping method.\n\nRequires one of the following permissions: AUTHENTICATED_STAFF_USER, AUTHENTICATED_APP.",
             "args": [],
             "type": {
               "kind": "OBJECT",
@@ -99976,7 +100357,7 @@
       {
         "kind": "INPUT_OBJECT",
         "name": "StaffCreateInput",
-        "description": null,
+        "description": "Fields required to create a staff user.",
         "fields": null,
         "inputFields": [
           {
@@ -100427,7 +100808,7 @@
       {
         "kind": "ENUM",
         "name": "StaffMemberStatus",
-        "description": null,
+        "description": "Represents status of a staff account.",
         "fields": null,
         "inputFields": null,
         "interfaces": null,
@@ -100850,7 +101231,7 @@
       {
         "kind": "INPUT_OBJECT",
         "name": "StaffUpdateInput",
-        "description": null,
+        "description": "Fields required to update a staff user.",
         "fields": null,
         "inputFields": [
           {
@@ -110875,7 +111256,7 @@
       {
         "kind": "OBJECT",
         "name": "UserPermission",
-        "description": null,
+        "description": "Represents user's permissions.",
         "fields": [
           {
             "name": "code",
@@ -117046,6 +117427,12 @@
             "deprecationReason": null
           },
           {
+            "name": "CHECKOUT_FULLY_PAID",
+            "description": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "CHECKOUT_METADATA_UPDATED",
             "description": "A checkout metadata is updated.\n\nAdded in Saleor 3.8.\n\nNote: this API is currently in Feature Preview and can be subject to changes at later point.",
             "isDeprecated": false,
@@ -117737,6 +118124,12 @@
           {
             "name": "CHECKOUT_FILTER_SHIPPING_METHODS",
             "description": "Filter shipping methods for checkout.",
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "CHECKOUT_FULLY_PAID",
+            "description": null,
             "isDeprecated": false,
             "deprecationReason": null
           },
@@ -118628,6 +119021,12 @@
           },
           {
             "name": "CHECKOUT_CREATED",
+            "description": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "CHECKOUT_FULLY_PAID",
             "description": null,
             "isDeprecated": false,
             "deprecationReason": null
@@ -119710,6 +120109,11 @@
           },
           {
             "kind": "OBJECT",
+            "name": "Order",
+            "ofType": null
+          },
+          {
+            "kind": "OBJECT",
             "name": "PageType",
             "ofType": null
           },
@@ -120692,6 +121096,30 @@
               "ofType": null
             },
             "defaultValue": "\"No longer supported\"",
+            "isDeprecated": false,
+            "deprecationReason": null
+          }
+        ]
+      },
+      {
+        "name": "doc",
+        "description": "Groups fields and operations into named groups.",
+        "isRepeatable": false,
+        "locations": ["ENUM", "FIELD", "FIELD_DEFINITION", "INPUT_OBJECT", "OBJECT"],
+        "args": [
+          {
+            "name": "category",
+            "description": "Name of the grouping category",
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              }
+            },
+            "defaultValue": null,
             "isDeprecated": false,
             "deprecationReason": null
           }

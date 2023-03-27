@@ -77,6 +77,7 @@ export type AccountDelete = {
   user?: Maybe<User>;
 };
 
+/** Represents errors in account mutations. */
 export type AccountError = {
   __typename?: 'AccountError';
   /** A type of address that causes the error. */
@@ -126,6 +127,7 @@ export type AccountErrorCode =
   | 'REQUIRED'
   | 'UNIQUE';
 
+/** Fields required to update the user. */
 export type AccountInput = {
   /** Billing address of the customer. */
   defaultBillingAddress?: InputMaybe<AddressInput>;
@@ -150,6 +152,7 @@ export type AccountRegister = {
   user?: Maybe<User>;
 };
 
+/** Fields required to create a user. */
 export type AccountRegisterInput = {
   /** Slug of a channel which will be used to notify users. Optional when only one channel exists. */
   channel?: InputMaybe<Scalars['String']>;
@@ -458,6 +461,7 @@ export type AddressUpdated = Event & {
   version?: Maybe<Scalars['String']>;
 };
 
+/** Represents address validation rules for a country. */
 export type AddressValidationData = {
   __typename?: 'AddressValidationData';
   addressFormat: Scalars['String'];
@@ -5891,7 +5895,7 @@ export type ExternalAuthentication = {
   name?: Maybe<Scalars['String']>;
 };
 
-/** Prepare external authentication url for user by custom plugin. */
+/** Prepare external authentication URL for user by custom plugin. */
 export type ExternalAuthenticationUrl = {
   __typename?: 'ExternalAuthenticationUrl';
   /** @deprecated This field will be removed in Saleor 4.0. Use `errors` field instead. */
@@ -9653,7 +9657,7 @@ export type Mutation = {
    * Requires one of the following permissions: MANAGE_PRODUCTS.
    */
   exportProducts?: Maybe<ExportProducts>;
-  /** Prepare external authentication url for user by custom plugin. */
+  /** Prepare external authentication URL for user by custom plugin. */
   externalAuthenticationUrl?: Maybe<ExternalAuthenticationUrl>;
   /** Logout user by custom plugin. */
   externalLogout?: Maybe<ExternalLogout>;
@@ -15557,6 +15561,7 @@ export type PermissionGroupFilterInput = {
   search?: InputMaybe<Scalars['String']>;
 };
 
+/** Sorting options for permission groups. */
 export type PermissionGroupSortField =
   /** Sort permission group accounts by name. */
   | 'NAME';
@@ -21457,6 +21462,7 @@ export type StaffCreate = {
   user?: Maybe<User>;
 };
 
+/** Fields required to create a staff user. */
 export type StaffCreateInput = {
   /** List of permission group IDs to which user should be assigned. */
   addGroups?: InputMaybe<Array<Scalars['ID']>>;
@@ -21547,6 +21553,7 @@ export type StaffError = {
   users?: Maybe<Array<Scalars['ID']>>;
 };
 
+/** Represents status of a staff account. */
 export type StaffMemberStatus =
   /** User account has been activated. */
   | 'ACTIVE'
@@ -21626,6 +21633,7 @@ export type StaffUpdate = {
   user?: Maybe<User>;
 };
 
+/** Fields required to update a staff user. */
 export type StaffUpdateInput = {
   /** List of permission group IDs to which user should be assigned. */
   addGroups?: InputMaybe<Array<Scalars['ID']>>;
@@ -23451,6 +23459,7 @@ export type UserCreateInput = {
   redirectUrl?: InputMaybe<Scalars['String']>;
 };
 
+/** Represents user's permissions. */
 export type UserPermission = {
   __typename?: 'UserPermission';
   /** Internal code for permission. */
@@ -23462,6 +23471,7 @@ export type UserPermission = {
 };
 
 
+/** Represents user's permissions. */
 export type UserPermissionSourcePermissionGroupsArgs = {
   userId: Scalars['ID'];
 };
@@ -25660,7 +25670,7 @@ export type WeightUnitsEnum =
   | 'TONNE';
 
 /** _Entity union as defined by Federation spec. */
-export type _Entity = Address | App | Category | Collection | Group | PageType | Product | ProductMedia | ProductType | ProductVariant | User;
+export type _Entity = Address | App | Category | Collection | Group | Order | PageType | Product | ProductMedia | ProductType | ProductVariant | User;
 
 /** _Service manifest as defined by Federation spec. */
 export type _Service = {

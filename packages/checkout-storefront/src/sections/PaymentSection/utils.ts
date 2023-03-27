@@ -28,6 +28,7 @@ export const getParsedPaymentGatewayConfigs = (
     return {
       ...result,
       [paymentGatewayMap[id as PaymentGatewayId]]: {
+        id,
         ...rest,
       },
     };

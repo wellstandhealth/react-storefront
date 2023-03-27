@@ -333,7 +333,7 @@
       {
         "kind": "OBJECT",
         "name": "AccountError",
-        "description": null,
+        "description": "Represents errors in account mutations.",
         "fields": [
           {
             "name": "addressType",
@@ -611,7 +611,7 @@
       {
         "kind": "INPUT_OBJECT",
         "name": "AccountInput",
-        "description": null,
+        "description": "Fields required to update the user.",
         "fields": null,
         "inputFields": [
           {
@@ -765,7 +765,7 @@
       {
         "kind": "INPUT_OBJECT",
         "name": "AccountRegisterInput",
-        "description": null,
+        "description": "Fields required to create a user.",
         "fields": null,
         "inputFields": [
           {
@@ -2212,7 +2212,7 @@
       {
         "kind": "OBJECT",
         "name": "AddressValidationData",
-        "description": null,
+        "description": "Represents address validation rules for a country.",
         "fields": [
           {
             "name": "addressFormat",
@@ -29305,7 +29305,7 @@
       {
         "kind": "OBJECT",
         "name": "ExternalAuthenticationUrl",
-        "description": "Prepare external authentication url for user by custom plugin.",
+        "description": "Prepare external authentication URL for user by custom plugin.",
         "fields": [
           {
             "name": "accountErrors",
@@ -49380,7 +49380,7 @@
           },
           {
             "name": "externalAuthenticationUrl",
-            "description": "Prepare external authentication url for user by custom plugin.",
+            "description": "Prepare external authentication URL for user by custom plugin.",
             "args": [
               {
                 "name": "input",
@@ -72480,7 +72480,7 @@
       {
         "kind": "ENUM",
         "name": "PermissionGroupSortField",
-        "description": null,
+        "description": "Sorting options for permission groups.",
         "fields": null,
         "inputFields": null,
         "interfaces": null,
@@ -88043,7 +88043,7 @@
               },
               {
                 "name": "sku",
-                "description": "Sku of the product variant.",
+                "description": "SKU of the product variant.",
                 "type": {
                   "kind": "SCALAR",
                   "name": "String",
@@ -98478,7 +98478,7 @@
       {
         "kind": "INPUT_OBJECT",
         "name": "StaffCreateInput",
-        "description": null,
+        "description": "Fields required to create a staff user.",
         "fields": null,
         "inputFields": [
           {
@@ -98929,7 +98929,7 @@
       {
         "kind": "ENUM",
         "name": "StaffMemberStatus",
-        "description": null,
+        "description": "Represents status of a staff account.",
         "fields": null,
         "inputFields": null,
         "interfaces": null,
@@ -99352,7 +99352,7 @@
       {
         "kind": "INPUT_OBJECT",
         "name": "StaffUpdateInput",
-        "description": null,
+        "description": "Fields required to update a staff user.",
         "fields": null,
         "inputFields": [
           {
@@ -107721,7 +107721,7 @@
       {
         "kind": "OBJECT",
         "name": "UserPermission",
-        "description": null,
+        "description": "Represents user's permissions.",
         "fields": [
           {
             "name": "code",
@@ -116484,6 +116484,11 @@
           },
           {
             "kind": "OBJECT",
+            "name": "Order",
+            "ofType": null
+          },
+          {
+            "kind": "OBJECT",
             "name": "PageType",
             "ofType": null
           },
@@ -117446,6 +117451,59 @@
       }
     ],
     "directives": [
+      {
+        "name": "deprecated",
+        "description": "Marks an element of a GraphQL schema as no longer supported.",
+        "isRepeatable": false,
+        "locations": [
+          "ENUM_VALUE",
+          "FIELD_DEFINITION"
+        ],
+        "args": [
+          {
+            "name": "reason",
+            "description": "Explains why this element was deprecated, usually also including a suggestion for how toaccess supported similar data. Formatted in [Markdown](https://daringfireball.net/projects/markdown/).",
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "defaultValue": "\"No longer supported\"",
+            "isDeprecated": false,
+            "deprecationReason": null
+          }
+        ]
+      },
+      {
+        "name": "doc",
+        "description": "Groups fields and operations into named groups.",
+        "isRepeatable": false,
+        "locations": [
+          "ENUM",
+          "FIELD",
+          "FIELD_DEFINITION",
+          "INPUT_OBJECT",
+          "OBJECT"
+        ],
+        "args": [
+          {
+            "name": "category",
+            "description": "Name of the grouping category",
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              }
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          }
+        ]
+      },
       {
         "name": "include",
         "description": "Directs the executor to include this field or fragment only when the `if` argument is true.",
