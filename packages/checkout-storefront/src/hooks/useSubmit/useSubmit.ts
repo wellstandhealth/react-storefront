@@ -11,7 +11,6 @@ import {
   CommonVars,
   MutationBaseFn,
   MutationData,
-  MutationResultData,
   MutationSuccessData,
   MutationVars,
   ParserFunction,
@@ -20,11 +19,7 @@ import {
 import { ApiErrors } from "@/checkout-storefront/hooks/useGetParsedErrors/types";
 import { extractMutationErrors } from "@/checkout-storefront/lib/utils/common";
 import { localeToLanguageCode } from "@/checkout-storefront/lib/utils/locale";
-import {
-  extractMutationData,
-  extractResponseData,
-  getSuccessData,
-} from "@/checkout-storefront/hooks/useSubmit/utils";
+import { extractMutationData } from "@/checkout-storefront/hooks/useSubmit/utils";
 
 interface CallbackProps<TData> {
   formData: TData;

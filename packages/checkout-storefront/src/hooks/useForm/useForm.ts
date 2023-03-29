@@ -8,11 +8,13 @@ import {
 import { useFormik, useFormikContext } from "formik";
 import { isEqual } from "lodash-es";
 import { useCallback, useState } from "react";
+import { ValidationError } from "yup";
 
 export const useForm = <TData extends FormDataBase>({
   initialDirty = false,
   ...formProps
 }: FormProps<TData>): UseFormReturn<TData> => {
+  const { validationSchema } = formProps;
   const form = useFormik<TData>(formProps);
   // we do this because in some cases it's not updated properly
   // https://github.com/jaredpalmer/formik/issues/3165
@@ -59,7 +61,25 @@ export const useForm = <TData extends FormDataBase>({
     setValues({ ...values, [field]: value });
   };
 
-  return { ...form, handleSubmit, handleChange, values, dirty, setFieldValue };
+  const validateForm = (values: TData) => {
+    try {
+      validationSchema.validateSync(values, { abortEarly: false });
+      return {};
+    } catch (e) {
+      const errors: ValidationError = { ...e };
+
+      if (!errors?.inner) {
+        return {};
+      }
+
+      return errors.inner.reduce(
+        (result, { path, message }) => (path ? { ...result, [path]: message } : result),
+        {}
+      );
+    }
+  };
+
+  return { ...form, handleSubmit, handleChange, values, dirty, setFieldValue, validateForm };
 };
 
 export const useFormContext = useFormikContext;

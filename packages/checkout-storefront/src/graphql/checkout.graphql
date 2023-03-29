@@ -63,6 +63,8 @@ fragment CheckoutFragment on Checkout {
   billingAddress {
     ...AddressFragment
   }
+  authorizeStatus
+  chargeStatus
   isShippingRequired
   user {
     id
@@ -375,13 +377,13 @@ mutation checkoutRemovePromoCode(
   }
 }
 
-mutation checkoutComplete($checkoutId: ID!, $languageCode: LanguageCodeEnum!) {
+mutation checkoutComplete($checkoutId: ID!) {
   checkoutComplete(id: $checkoutId) {
     errors {
       ...CheckoutErrorFragment
     }
     order {
-      ...OrderFragment
+      id
     }
   }
 }

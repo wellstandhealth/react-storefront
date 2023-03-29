@@ -1,4 +1,5 @@
 import { PaymentGateway, PaymentGatewayConfig } from "@/checkout-storefront/graphql";
+import { adyenGatewayId } from "@/checkout-storefront/sections/PaymentSection/AdyenDropIn/types";
 import {
   ParsedPaymentGateways,
   PaymentGatewayId,
@@ -8,7 +9,7 @@ import { compact } from "lodash-es";
 const PAYMENT_PLUGIN_PREFIX = "mirumee";
 
 const paymentGatewayMap: Record<PaymentGatewayId, keyof ParsedPaymentGateways> = {
-  "app.saleor.adyen": "adyen",
+  [adyenGatewayId]: "adyen",
 };
 
 export const getParsedPaymentGatewayConfigs = (

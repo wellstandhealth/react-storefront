@@ -17,6 +17,11 @@ export const orderInfoMessages = defineMessages({
     id: "OrderInfo/messages/vcXZR6",
     description: "paid order message",
   },
+  orderOvercharged: {
+    defaultMessage:
+      "Your order has been paid more than owed. This may be an error during payment. Contact your shop staff for help.",
+    id: "OrderInfo/messages/1hMnDx",
+  },
   orderConfirmTitle: {
     defaultMessage: "Order #{number} confirmed",
     id: "OrderInfo/messages/VjsJkY",

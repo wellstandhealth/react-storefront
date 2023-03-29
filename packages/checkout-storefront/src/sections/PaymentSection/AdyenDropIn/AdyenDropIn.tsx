@@ -29,14 +29,12 @@ export const AdyenDropIn: FC<AdyenDropinProps> = ({ config }) => {
     }
 
     const createAdyenCheckoutInstance = async () => {
-      // console.log({ data: config.data, locale });
-
       const adyenCheckout = await AdyenCheckout(
         createAdyenCheckoutConfig({ ...config.data, locale, onSubmit, onAdditionalDetails })
       );
 
       const dropin = adyenCheckout
-        .create("dropin", { onReady: () => console.log("RADDYYY") })
+        .create("dropin")
         .mount(dropinContainerElRef?.current as HTMLDivElement);
 
       dropinComponentRef.current = dropin;

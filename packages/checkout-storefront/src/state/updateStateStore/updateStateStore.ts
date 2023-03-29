@@ -8,11 +8,14 @@ export type CheckoutUpdateStateStatus = "success" | "loading" | "error";
 
 export type CheckoutUpdateStateScope = Exclude<CheckoutScope, "checkoutPay" | "checkoutFinalize">;
 
-export interface CheckoutUpdateStateStore {
-  shouldRegisterUser: boolean;
-  submitInProgress: boolean;
+export interface CheckoutUpdateState {
   loadingCheckout: boolean;
   updateState: Record<CheckoutUpdateStateScope, CheckoutUpdateStateStatus>;
+  submitInProgress: boolean;
+}
+
+export interface CheckoutUpdateStateStore extends CheckoutUpdateState {
+  shouldRegisterUser: boolean;
   actions: {
     setSubmitInProgress: (submitInProgress: boolean) => void;
     setShouldRegisterUser: (shouldRegisterUser: boolean) => void;
@@ -67,7 +70,7 @@ const useCheckoutUpdateStateStore = create<CheckoutUpdateStateStore>((set) => ({
   },
 }));
 
-export const useCheckoutUpdateState = () => {
+export const useCheckoutUpdateState = (): CheckoutUpdateState => {
   const { updateState, loadingCheckout, submitInProgress } = useCheckoutUpdateStateStore(
     ({ updateState, loadingCheckout, submitInProgress }) => ({
       updateState,

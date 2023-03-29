@@ -26197,6 +26197,8 @@ export type CheckoutFragment = {
   voucherCode?: string | null;
   discountName?: string | null;
   translatedDiscountName?: string | null;
+  authorizeStatus: CheckoutAuthorizeStatusEnum;
+  chargeStatus: CheckoutChargeStatusEnum;
   isShippingRequired: boolean;
   discount?: { __typename?: "Money"; currency: string; amount: number } | null;
   giftCards: Array<{
@@ -26406,6 +26408,8 @@ export type CheckoutQuery = {
     voucherCode?: string | null;
     discountName?: string | null;
     translatedDiscountName?: string | null;
+    authorizeStatus: CheckoutAuthorizeStatusEnum;
+    chargeStatus: CheckoutChargeStatusEnum;
     isShippingRequired: boolean;
     discount?: { __typename?: "Money"; currency: string; amount: number } | null;
     giftCards: Array<{
@@ -26568,6 +26572,8 @@ export type CheckoutLinesUpdateMutation = {
       voucherCode?: string | null;
       discountName?: string | null;
       translatedDiscountName?: string | null;
+      authorizeStatus: CheckoutAuthorizeStatusEnum;
+      chargeStatus: CheckoutChargeStatusEnum;
       isShippingRequired: boolean;
       discount?: { __typename?: "Money"; currency: string; amount: number } | null;
       giftCards: Array<{
@@ -26719,6 +26725,8 @@ export type CheckoutLineDeleteMutation = {
       voucherCode?: string | null;
       discountName?: string | null;
       translatedDiscountName?: string | null;
+      authorizeStatus: CheckoutAuthorizeStatusEnum;
+      chargeStatus: CheckoutChargeStatusEnum;
       isShippingRequired: boolean;
       discount?: { __typename?: "Money"; currency: string; amount: number } | null;
       giftCards: Array<{
@@ -26870,6 +26878,8 @@ export type CheckoutEmailUpdateMutation = {
       voucherCode?: string | null;
       discountName?: string | null;
       translatedDiscountName?: string | null;
+      authorizeStatus: CheckoutAuthorizeStatusEnum;
+      chargeStatus: CheckoutChargeStatusEnum;
       isShippingRequired: boolean;
       discount?: { __typename?: "Money"; currency: string; amount: number } | null;
       giftCards: Array<{
@@ -27020,6 +27030,8 @@ export type CheckoutCustomerAttachMutation = {
       voucherCode?: string | null;
       discountName?: string | null;
       translatedDiscountName?: string | null;
+      authorizeStatus: CheckoutAuthorizeStatusEnum;
+      chargeStatus: CheckoutChargeStatusEnum;
       isShippingRequired: boolean;
       discount?: { __typename?: "Money"; currency: string; amount: number } | null;
       giftCards: Array<{
@@ -27270,6 +27282,8 @@ export type CheckoutShippingAddressUpdateMutation = {
       voucherCode?: string | null;
       discountName?: string | null;
       translatedDiscountName?: string | null;
+      authorizeStatus: CheckoutAuthorizeStatusEnum;
+      chargeStatus: CheckoutChargeStatusEnum;
       isShippingRequired: boolean;
       discount?: { __typename?: "Money"; currency: string; amount: number } | null;
       giftCards: Array<{
@@ -27422,6 +27436,8 @@ export type CheckoutBillingAddressUpdateMutation = {
       voucherCode?: string | null;
       discountName?: string | null;
       translatedDiscountName?: string | null;
+      authorizeStatus: CheckoutAuthorizeStatusEnum;
+      chargeStatus: CheckoutChargeStatusEnum;
       isShippingRequired: boolean;
       discount?: { __typename?: "Money"; currency: string; amount: number } | null;
       giftCards: Array<{
@@ -27573,6 +27589,8 @@ export type CheckoutDeliveryMethodUpdateMutation = {
       voucherCode?: string | null;
       discountName?: string | null;
       translatedDiscountName?: string | null;
+      authorizeStatus: CheckoutAuthorizeStatusEnum;
+      chargeStatus: CheckoutChargeStatusEnum;
       isShippingRequired: boolean;
       discount?: { __typename?: "Money"; currency: string; amount: number } | null;
       giftCards: Array<{
@@ -27746,6 +27764,8 @@ export type CheckoutAddPromoCodeMutation = {
       voucherCode?: string | null;
       discountName?: string | null;
       translatedDiscountName?: string | null;
+      authorizeStatus: CheckoutAuthorizeStatusEnum;
+      chargeStatus: CheckoutChargeStatusEnum;
       isShippingRequired: boolean;
       discount?: { __typename?: "Money"; currency: string; amount: number } | null;
       giftCards: Array<{
@@ -27898,6 +27918,8 @@ export type CheckoutRemovePromoCodeMutation = {
       voucherCode?: string | null;
       discountName?: string | null;
       translatedDiscountName?: string | null;
+      authorizeStatus: CheckoutAuthorizeStatusEnum;
+      chargeStatus: CheckoutChargeStatusEnum;
       isShippingRequired: boolean;
       discount?: { __typename?: "Money"; currency: string; amount: number } | null;
       giftCards: Array<{
@@ -28028,7 +28050,6 @@ export type CheckoutRemovePromoCodeMutation = {
 
 export type CheckoutCompleteMutationVariables = Exact<{
   checkoutId: Scalars["ID"];
-  languageCode: LanguageCodeEnum;
 }>;
 
 export type CheckoutCompleteMutation = {
@@ -28041,108 +28062,7 @@ export type CheckoutCompleteMutation = {
       field?: string | null;
       code: CheckoutErrorCode;
     }>;
-    order?: {
-      __typename?: "Order";
-      id: string;
-      number: string;
-      userEmail?: string | null;
-      isPaid: boolean;
-      discounts: Array<{
-        __typename?: "OrderDiscount";
-        type: OrderDiscountType;
-        name?: string | null;
-        amount: { __typename?: "Money"; currency: string; amount: number };
-      }>;
-      shippingAddress?: {
-        __typename?: "Address";
-        id: string;
-        city: string;
-        phone?: string | null;
-        postalCode: string;
-        companyName: string;
-        cityArea: string;
-        streetAddress1: string;
-        streetAddress2: string;
-        countryArea: string;
-        firstName: string;
-        lastName: string;
-        country: { __typename?: "CountryDisplay"; country: string; code: string };
-      } | null;
-      billingAddress?: {
-        __typename?: "Address";
-        id: string;
-        city: string;
-        phone?: string | null;
-        postalCode: string;
-        companyName: string;
-        cityArea: string;
-        streetAddress1: string;
-        streetAddress2: string;
-        countryArea: string;
-        firstName: string;
-        lastName: string;
-        country: { __typename?: "CountryDisplay"; country: string; code: string };
-      } | null;
-      deliveryMethod?:
-        | {
-            __typename?: "ShippingMethod";
-            name: string;
-            minimumDeliveryDays?: number | null;
-            maximumDeliveryDays?: number | null;
-          }
-        | { __typename?: "Warehouse" }
-        | null;
-      total: {
-        __typename?: "TaxedMoney";
-        gross: { __typename?: "Money"; currency: string; amount: number };
-        tax: { __typename?: "Money"; currency: string; amount: number };
-      };
-      voucher?: { __typename?: "Voucher"; code: string } | null;
-      shippingPrice: {
-        __typename?: "TaxedMoney";
-        gross: { __typename?: "Money"; currency: string; amount: number };
-      };
-      subtotal: {
-        __typename?: "TaxedMoney";
-        gross: { __typename?: "Money"; currency: string; amount: number };
-      };
-      lines: Array<{
-        __typename?: "OrderLine";
-        id: string;
-        quantity: number;
-        productName: string;
-        variantName: string;
-        variant?: {
-          __typename?: "ProductVariant";
-          name: string;
-          attributes: Array<{
-            __typename?: "SelectedAttribute";
-            values: Array<{
-              __typename?: "AttributeValue";
-              name?: string | null;
-              dateTime?: string | null;
-              boolean?: boolean | null;
-              translation?: { __typename?: "AttributeValueTranslation"; name: string } | null;
-            }>;
-          }>;
-        } | null;
-        totalPrice: {
-          __typename?: "TaxedMoney";
-          gross: { __typename?: "Money"; currency: string; amount: number };
-        };
-        undiscountedUnitPrice: {
-          __typename?: "TaxedMoney";
-          gross: { __typename?: "Money"; currency: string; amount: number };
-        };
-        unitPrice: {
-          __typename?: "TaxedMoney";
-          gross: { __typename?: "Money"; currency: string; amount: number };
-        };
-        thumbnail?: { __typename?: "Image"; alt?: string | null; url: string } | null;
-      }>;
-      totalBalance: { __typename?: "Money"; currency: string; amount: number };
-      totalCaptured: { __typename?: "Money"; currency: string; amount: number };
-    } | null;
+    order?: { __typename?: "Order"; id: string } | null;
   } | null;
 };
 
@@ -28196,6 +28116,8 @@ export type OrderFragment = {
   number: string;
   userEmail?: string | null;
   isPaid: boolean;
+  chargeStatus: OrderChargeStatusEnum;
+  authorizeStatus: OrderAuthorizeStatusEnum;
   discounts: Array<{
     __typename?: "OrderDiscount";
     type: OrderDiscountType;
@@ -28306,6 +28228,8 @@ export type OrderQuery = {
     number: string;
     userEmail?: string | null;
     isPaid: boolean;
+    chargeStatus: OrderChargeStatusEnum;
+    authorizeStatus: OrderAuthorizeStatusEnum;
     discounts: Array<{
       __typename?: "OrderDiscount";
       type: OrderDiscountType;
@@ -28740,6 +28664,8 @@ export const CheckoutFragmentDoc = gql`
     billingAddress {
       ...AddressFragment
     }
+    authorizeStatus
+    chargeStatus
     isShippingRequired
     user {
       id
@@ -28854,6 +28780,8 @@ export const OrderFragmentDoc = gql`
         ...Money
       }
     }
+    chargeStatus
+    authorizeStatus
     shippingAddress {
       ...AddressFragment
     }
@@ -29234,18 +29162,17 @@ export function useCheckoutRemovePromoCodeMutation() {
   >(CheckoutRemovePromoCodeDocument);
 }
 export const CheckoutCompleteDocument = gql`
-  mutation checkoutComplete($checkoutId: ID!, $languageCode: LanguageCodeEnum!) {
+  mutation checkoutComplete($checkoutId: ID!) {
     checkoutComplete(id: $checkoutId) {
       errors {
         ...CheckoutErrorFragment
       }
       order {
-        ...OrderFragment
+        id
       }
     }
   }
   ${CheckoutErrorFragmentDoc}
-  ${OrderFragmentDoc}
 `;
 
 export function useCheckoutCompleteMutation() {

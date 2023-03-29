@@ -1,8 +1,11 @@
 import {
+  areAnyRequestsInProgress,
+  hasFinishedApiChangesWithNoError,
   useCheckoutUpdateState,
   useCheckoutUpdateStateActions,
 } from "@/checkout-storefront/state/updateStateStore";
 import {
+  areAllFormsValid,
   useCheckoutValidationActions,
   useCheckoutValidationState,
 } from "@/checkout-storefront/state/checkoutValidationStateStore";
@@ -28,16 +31,19 @@ export const useCheckoutSubmit = () => {
     }
   }, [setShouldRegisterUser, setSubmitInProgress, user, validateAllForms]);
 
-  const updateStateValues = Object.values(updateState);
+  const anyRequestsInProgress = areAnyRequestsInProgress({
+    updateState,
+    loadingCheckout,
+    submitInProgress,
+  });
 
-  const anyRequestsInProgress =
-    updateStateValues.some((status) => status === "loading") || loadingCheckout;
+  const finishedApiChangesWithNoError = hasFinishedApiChangesWithNoError({
+    updateState,
+    loadingCheckout,
+    submitInProgress,
+  });
 
-  const finishedApiChangesWithNoError =
-    !anyRequestsInProgress && updateStateValues.every((status) => status === "success");
-
-  const allFormsValid =
-    !validating && Object.values(validationState).every((value) => value === "valid");
+  const allFormsValid = areAllFormsValid({ validating, validationState });
 
   const handleSubmit = useCallback(async () => {
     if (submitInProgress && finishedApiChangesWithNoError && allFormsValid) {

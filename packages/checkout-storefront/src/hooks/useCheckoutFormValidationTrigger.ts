@@ -1,10 +1,9 @@
-import { FormDataBase, hasErrors, UseFormReturn } from "@/checkout-storefront/hooks/useForm";
+import { FormDataBase, UseFormReturn } from "@/checkout-storefront/hooks/useForm";
+import { useSetCheckoutFormValidationState } from "@/checkout-storefront/hooks/useSetCheckoutFormValidationState";
 import {
   CheckoutFormScope,
-  useCheckoutValidationActions,
   useCheckoutValidationState,
 } from "@/checkout-storefront/state/checkoutValidationStateStore";
-import { useCheckoutUpdateStateActions } from "@/checkout-storefront/state/updateStateStore";
 import { useCallback, useEffect } from "react";
 
 interface UseCheckoutFormValidationTriggerProps<TData extends FormDataBase> {
@@ -19,36 +18,14 @@ export const useCheckoutFormValidationTrigger = <TData extends FormDataBase>({
   form,
   skip = false,
 }: UseCheckoutFormValidationTriggerProps<TData>) => {
-  const { setSubmitInProgress } = useCheckoutUpdateStateActions();
-  const { setValidationState } = useCheckoutValidationActions();
   const { validating } = useCheckoutValidationState();
-
-  const { values, validateForm, setTouched } = form;
+  const { setCheckoutFormValidationState } = useSetCheckoutFormValidationState(scope);
 
   const handleGlobalValidationTrigger = useCallback(async () => {
     if (validating) {
-      const formErrors = await validateForm(values);
-      if (!hasErrors(formErrors)) {
-        setValidationState(scope, "valid");
-        return;
-      }
-
-      await setTouched(
-        Object.keys(formErrors).reduce((result, key) => ({ ...result, [key]: true }), {})
-      );
-
-      setSubmitInProgress(false);
-      setValidationState(scope, "invalid");
+      void setCheckoutFormValidationState(form);
     }
-  }, [
-    scope,
-    setSubmitInProgress,
-    setTouched,
-    setValidationState,
-    validateForm,
-    validating,
-    values,
-  ]);
+  }, [form, setCheckoutFormValidationState, validating]);
 
   useEffect(() => {
     if (!skip) {

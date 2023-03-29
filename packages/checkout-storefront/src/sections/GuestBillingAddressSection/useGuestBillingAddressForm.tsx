@@ -15,6 +15,7 @@ import {
   useAutoSaveAddressForm,
 } from "@/checkout-storefront/hooks/useAutoSaveAddressForm";
 import { useMemo } from "react";
+import { useSetCheckoutFormValidationState } from "@/checkout-storefront/hooks/useSetCheckoutFormValidationState";
 
 interface GuestBillingAddressFormProps {
   skipValidation: boolean;
@@ -26,6 +27,7 @@ export const useGuestBillingAddressForm = ({ skipValidation }: GuestBillingAddre
   } = useCheckout();
   const validationSchema = useAddressFormSchema();
   const [, checkoutBillingAddressUpdate] = useCheckoutBillingAddressUpdateMutation();
+  const { setCheckoutFormValidationState } = useSetCheckoutFormValidationState("billingAddress");
 
   const onSubmit = useFormSubmit<AutoSaveAddressFormData, typeof checkoutBillingAddressUpdate>(
     useMemo(
@@ -38,8 +40,14 @@ export const useGuestBillingAddressForm = ({ skipValidation }: GuestBillingAddre
           billingAddress: getAddressInputData(omit(rest, ["channel"])),
           validationRules: getAddressValidationRulesVariables({ autoSave: true }),
         }),
+        onSuccess: ({ data, formHelpers }) => {
+          void setCheckoutFormValidationState({
+            ...formHelpers,
+            values: getAddressFormDataFromAddress(data.checkout?.billingAddress),
+          });
+        },
       }),
-      [checkoutBillingAddressUpdate]
+      [checkoutBillingAddressUpdate, setCheckoutFormValidationState]
     )
   );
 

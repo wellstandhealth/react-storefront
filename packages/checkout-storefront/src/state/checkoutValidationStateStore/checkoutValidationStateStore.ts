@@ -4,9 +4,12 @@ import shallow from "zustand/shallow";
 export type CheckoutFormScope = "shippingAddress" | "billingAddress" | "guestUser";
 type CheckoutFormValidationStatus = "valid" | "invalid";
 
-interface UseCheckoutValidationStateStore {
-  validating: boolean;
+export type CheckoutValidationState = {
   validationState: Record<CheckoutFormScope, CheckoutFormValidationStatus>;
+  validating: boolean;
+};
+
+interface UseCheckoutValidationStateStore extends CheckoutValidationState {
   actions: {
     validateAllForms: () => void;
     setValidating: (validaing: boolean) => void;
@@ -31,7 +34,7 @@ const useCheckoutValidationStateStore = create<UseCheckoutValidationStateStore>(
 export const useCheckoutValidationActions = () =>
   useCheckoutValidationStateStore((state) => state.actions);
 
-export const useCheckoutValidationState = () =>
+export const useCheckoutValidationState = (): CheckoutValidationState =>
   useCheckoutValidationStateStore(
     ({ validating, validationState }) => ({ validating, validationState }),
     shallow

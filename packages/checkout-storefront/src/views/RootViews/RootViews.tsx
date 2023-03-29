@@ -33,7 +33,7 @@ export const RootViews = () => {
 
     return (
       <Suspense fallback={<OrderConfirmationSkeleton />}>
-        <OrderConfirmation orderId={orderId} />
+        <OrderConfirmation />
       </Suspense>
     );
   }

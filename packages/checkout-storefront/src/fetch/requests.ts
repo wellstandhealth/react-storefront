@@ -64,21 +64,6 @@ export const getAppConfig = ({
       new URLSearchParams({ saleorApiUrl }).toString()
   );
 
-export const getOrderPaymentStatus = ({
-  saleorApiUrl,
-  orderId,
-  checkoutApiUrl,
-}: {
-  saleorApiUrl: string;
-  orderId: string;
-  checkoutApiUrl: string;
-}): FetchResponse<PaymentStatusResponse> =>
-  fetch(
-    urlJoinTrailingSlash(checkoutApiUrl, "payment-status", orderId) +
-      `?` +
-      new URLSearchParams({ saleorApiUrl }).toString()
-  );
-
 export const createDropInAdyenSession = ({
   saleorApiUrl,
   checkoutApiUrl,

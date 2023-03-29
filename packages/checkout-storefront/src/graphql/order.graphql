@@ -60,6 +60,8 @@ fragment OrderFragment on Order {
       ...Money
     }
   }
+  chargeStatus
+  authorizeStatus
   shippingAddress {
     ...AddressFragment
   }
