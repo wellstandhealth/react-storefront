@@ -3,7 +3,7 @@
   "exclude": ["node_modules", "cypress"],
   "compilerOptions": {
     "lib": ["DOM", "DOM.Iterable", "ESNext"],
-    "types": ["cypress", "node"],
+    "types": ["cypress", "node", "@percy/cypress"],
     "isolatedModules": false,
     "noImplicitAny": false
   }

@@ -32,6 +32,8 @@
     "cy:open": "cypress open"
   },
   "devDependencies": {
+    "@percy/cli": "^1.21.0",
+    "@percy/cypress": "^3.1.2",
     "cypress": "10.11.0",
     "env-cmd": "10.1.0",
     "husky": "8.0.1",

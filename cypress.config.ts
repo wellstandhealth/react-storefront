@@ -1,7 +1,8 @@
+import "../react-storefront/packages/env-vars";
+
 /* eslint-disable @typescript-eslint/no-var-requires */
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { defineConfig } from "cypress";
-import "../react-storefront/packages/env-vars";
 
 export default defineConfig({
   projectId: "o9u948",
@@ -25,7 +26,7 @@ export default defineConfig({
     productToSearch: process.env.CYPRESS_PRODUCT_TO_SEARCH,
   },
   e2e: {
-    baseUrl: "http://localhost:3000/",
+    baseUrl: "https://demo.saleor.io/",
     specPattern: "cypress/e2e/**/*.cy.{js,jsx,ts,tsx}",
   },
 });
