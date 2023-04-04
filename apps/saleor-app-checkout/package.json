@@ -50,7 +50,7 @@
     "react-hook-form": "7.38.0",
     "react-intl": "6.2.1",
     "react-is": "18.2.0",
-    "retes": "0.34.0",
+    "retes": "0.36.0",
     "stripe": "10.15.0",
     "ts-invariant": "0.10.3",
     "url-join": "4.0.1",
