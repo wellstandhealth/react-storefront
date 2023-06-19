@@ -24,7 +24,7 @@
     "@headlessui/react": "1.7.3",
     "@heroicons/react": "1.0.6",
     "@saleor/ui-kit": "workspace:*",
-    "@stripe/react-stripe-js": "1.14.0",
+    "@stripe/react-stripe-js": "2.1.1",
     "@stripe/stripe-js": "1.42.0",
     "@tailwindcss/aspect-ratio": "0.4.2",
     "@tailwindcss/forms": "0.5.3",
