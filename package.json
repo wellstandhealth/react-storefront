@@ -32,7 +32,7 @@
     "cy:open": "cypress open"
   },
   "devDependencies": {
-    "cypress": "10.11.0",
+    "cypress": "12.15.0",
     "env-cmd": "10.1.0",
     "husky": "8.0.1",
     "lint-staged": "13.0.3",
