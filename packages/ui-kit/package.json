@@ -55,7 +55,7 @@
     "css-loader": "6.7.1",
     "css-modules-typescript-loader": "4.0.1",
     "eslint-config-checkout": "workspace:*",
-    "postcss": "8.4.18",
+    "postcss": "8.4.31",
     "postcss-loader": "7.0.1",
     "react": "18.2.0",
     "react-docgen-typescript": "2.2.2",
