@@ -37,7 +37,7 @@
     "checkout-common": "workspace:*",
     "clsx": "1.2.1",
     "content-type": "1.0.4",
-    "crypto-js": "4.1.1",
+    "crypto-js": "4.2.0",
     "currency.js": "2.0.4",
     "graphql": "16.6.0",
     "graphql-tag": "2.12.6",
